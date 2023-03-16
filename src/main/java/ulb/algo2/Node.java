@@ -25,9 +25,17 @@ public class Node<T> {
 		children.add(child);
 	}
 
+	public void removeChild(Node<T> child) {
+		children.remove(child);
+	}
+
 	// Verifiers
 	public boolean isChild(Node<T> child) {
 		return children.contains(child);
+	}
+
+	public boolean isFather(Node<T> father) {
+		return this.father == father;
 	}
 
 	public boolean isLeaf() {
@@ -36,10 +44,6 @@ public class Node<T> {
 
 	public boolean isRoot() {
 		return father == null;
-	}
-
-	public boolean isFather(Node<T> father) {
-		return this.father == father;
 	}
 
 	// Setters

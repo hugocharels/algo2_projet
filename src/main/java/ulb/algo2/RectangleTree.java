@@ -2,16 +2,16 @@ package ulb.algo2;
 
 public class RectangleTree {
 
-	public RectangleTree() {
-		System.out.println("New Tree");
+	private Node<> root;
+
+
+
+	public Node<> chooseNode(Node<> node, polygon) {
+
 	}
 
-	public void chooseNode() {
-		System.out.println("Hello world!");
-	}
+	public void addLeaf(Node<> node, label, polygon) {
 
-	public void addLeaf() {
-		System.out.println("new Leaf added");
 	}
 
 }
