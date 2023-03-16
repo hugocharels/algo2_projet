@@ -1,4 +1,4 @@
-package src;
+package ulb.algo2;
 
 public class RectangleTree {
 
