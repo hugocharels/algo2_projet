@@ -1,7 +1,9 @@
 package ulb.algo2;
 
-public class RectangleTree {
+import ulb.algo2.node.*;
 
+public class RectangleTree {
+/*
 	private Node<> root;
 
 
@@ -13,5 +15,5 @@ public class RectangleTree {
 	public void addLeaf(Node<> node, label, polygon) {
 
 	}
-
+*/
 }

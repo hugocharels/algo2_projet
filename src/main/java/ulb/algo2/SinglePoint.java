@@ -52,11 +52,11 @@ public class SinglePoint {
      */
     public static void main(String[] args) throws Exception {
         // display a data store file chooser dialog for shapefiles
-        //String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
+        String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
 
         //String filename="../algo2_projet/data/WB_countries_Admin0_10m/WB_countries_Admin0_10m.shp";
         
-        String filename="../algo2_projet/data/communes-20220101-shp/communes-20220101.shp";
+        //String filename="../algo2_projet/data/communes-20220101-shp/communes-20220101.shp";
         
         File file = new File(filename);
         if (!file.exists())
@@ -85,10 +85,14 @@ public class SinglePoint {
         //Point p = gb.point(169.2, -52.5);//NZ
         
         //Point p = gb.point(172.97365198326708, 1.8869725782923172);
+
+	    Point p = gb.point(147306.96, 166818.79); // maison de kevin (actuelemenet)
+		//Point p = gb.point(151515.33, 167600.79); // maison de kevin (future)
+
+	    //Point p = gb.point(150024, 167125);
         
-        
-        Point p = gb.point(r.nextInt((int) global_bounds.getMinX(), (int) global_bounds.getMaxX()), 
-        				r.nextInt((int) global_bounds.getMinY(), (int) global_bounds.getMaxY()));
+        //Point p = gb.point(r.nextInt((int) global_bounds.getMinX(), (int) global_bounds.getMaxX()),
+        //				r.nextInt((int) global_bounds.getMinY(), (int) global_bounds.getMaxY()));
         
         SimpleFeature target=null;
         
@@ -117,7 +121,7 @@ public class SinglePoint {
         		}
         	}
         }
-         
+
         MapContent map = new MapContent();
         map.setTitle("Projet INFO-F203");
 
