@@ -2,18 +2,26 @@ package ulb.algo2;
 
 import ulb.algo2.node.*;
 
+// en attendant
+class Polygon{}
+class Label{}
+
+
 public class RectangleTree {
-/*
-	private Node<> root;
+
+	private Node<MBR<Integer>> root;
+
+	public RectangleTree() {
+		System.out.println("new RectangleTree");
+	}
 
 
+	public Node<MBR<Integer>> chooseNode(Node<MBR<Integer>> node, Polygon polygon) {
+		return null;
+	}
 
-	public Node<> chooseNode(Node<> node, polygon) {
+	public void addLeaf(Node<MBR<Integer>> node, Label label, Polygon polygon) {
 
 	}
 
-	public void addLeaf(Node<> node, label, polygon) {
-
-	}
-*/
 }
