@@ -1,8 +1,10 @@
 package ulb.algo2.rtrees;
 
 import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureIterator;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.opengis.feature.simple.SimpleFeature;
+
 import ulb.algo2.MBR;
 import ulb.algo2.node.Leaf;
 import ulb.algo2.node.LeafData;
@@ -21,13 +23,14 @@ public class RectangleTreeBuilder {
 
 
 	public static void buildTree(AbstractRectangleTree tree, SimpleFeatureCollection features) {
-		// TODO implement
+		// TODO better implement
 		Node root = new Node(null, new MBR<Double>(0., 0., 0., 0.));
 		tree.setRoot(root);
-		// TODO bien faire le for
-		for (SimpleFeature feature : features) {
-			Leaf leaf = createLeaf(root, feature);
-			root.addChild(leaf);
+		try (SimpleFeatureIterator iterator = features.features()) {
+			for (SimpleFeature feature = iterator.next(); iterator.hasNext(); feature = iterator.next()) {
+				Leaf leaf = createLeaf(root, feature);
+				root.addChild(leaf);
+			}
 		}
 	}
 
