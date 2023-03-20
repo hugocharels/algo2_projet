@@ -23,6 +23,12 @@ public class Node extends AbstractNode {
 	public void addChild(AbstractNode child) { children.add(child); }
 	public void removeChild(AbstractNode child) { children.remove(child); }
 
+	public void swapChildren(Node other) {
+		List<AbstractNode> temp = children;
+		children = other.children;
+		other.children = temp;
+	}
+
 	// Verifiers
 	public boolean isChild(AbstractNode child) { return children.contains(child); }
 

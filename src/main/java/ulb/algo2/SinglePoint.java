@@ -64,7 +64,8 @@ public class SinglePoint {
         
         FileDataStore store = FileDataStoreFinder.getDataStore(file);
         SimpleFeatureSource featureSource = store.getFeatureSource();
-        
+
+		// les pays
         SimpleFeatureCollection all_features=featureSource.getFeatures();
         
         store.dispose();
@@ -74,26 +75,23 @@ public class SinglePoint {
         
         Random r = new Random();
         
-        
+        // le polygon autour du point
         GeometryBuilder gb = new GeometryBuilder();
+
         //Point p = gb.point(152183, 167679);// Plaine
         //Point p = gb.point(4.4, 50.8);// 
         //Point p = gb.point(58.0, 47.0);
         //Point p = gb.point(10.6,59.9);// Oslo
-        
         //Point p = gb.point(-70.9,-33.4);// Santiago
         //Point p = gb.point(169.2, -52.5);//NZ
-        
         //Point p = gb.point(172.97365198326708, 1.8869725782923172);
-
 	    Point p = gb.point(147306.96, 166818.79); // maison de kevin (actuelemenet)
 		//Point p = gb.point(151515.33, 167600.79); // maison de kevin (future)
-
 	    //Point p = gb.point(150024, 167125);
-        
         //Point p = gb.point(r.nextInt((int) global_bounds.getMinX(), (int) global_bounds.getMaxX()),
         //				r.nextInt((int) global_bounds.getMinY(), (int) global_bounds.getMaxY()));
-        
+
+	    // le pays ciblé par le point
         SimpleFeature target=null;
         
         System.out.println(all_features.size()+" features");
