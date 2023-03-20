@@ -10,12 +10,12 @@ public class Node extends AbstractNode {
 	private List<AbstractNode> children;
 
 	// Constructor
-	public Node(MBR<Double> data, Node father) {
-		super(data, father);
+	public Node(Node father, MBR<Double> data) {
+		super(father, data);
 	}
 
-	public Node(MBR<Double> data, Node father, List<AbstractNode> children) {
-		this(data, father);
+	public Node(Node father, MBR<Double> data, List<AbstractNode> children) {
+		this(father, data);
 		this.children = children;
 	}
 

@@ -10,8 +10,8 @@ public class Leaf extends AbstractNode {
 	LeafData data;
 
 	// Constructor
-	public Leaf(MBR<Double> mbr, Node father, LeafData data) {
-		super(mbr, father);
+	public Leaf(Node father, MBR<Double> mbr, LeafData data) {
+		super(father, mbr);
 		this.data = data;
 	}
 

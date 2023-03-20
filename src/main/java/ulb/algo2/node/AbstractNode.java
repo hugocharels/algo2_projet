@@ -8,7 +8,7 @@ public abstract class AbstractNode {
 	private Node father;
 
 	// Constructor
-	public AbstractNode(MBR<Double> data, Node father) {
+	public AbstractNode(Node father, MBR<Double> data) {
 		this.data = data;
 		this.father = father;
 	}

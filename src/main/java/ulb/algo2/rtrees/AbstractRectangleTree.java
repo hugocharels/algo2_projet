@@ -12,6 +12,7 @@ public abstract class AbstractRectangleTree {
 	protected Node root;
 
 
+	// Modifiers
 	public Node chooseNode(Node node, MultiPolygon polygon) {
 		// TODO implement
 		return null;
@@ -22,5 +23,10 @@ public abstract class AbstractRectangleTree {
 	}
 
 	public abstract Node split(Node node);
+
+
+	// Setter
+	public void setRoot(Node root) { this.root = root; }
+
 
 }
