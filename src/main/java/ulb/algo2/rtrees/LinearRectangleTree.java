@@ -7,7 +7,7 @@ import ulb.algo2.node.Node;
 public class LinearRectangleTree extends AbstractRectangleTree {
 
 	@Override
-	public Node<MBR<Integer>> split(Node<MBR<Integer>> node) {
+	public Node split(Node node) {
 		// TODO implement
 		return null;
 	}

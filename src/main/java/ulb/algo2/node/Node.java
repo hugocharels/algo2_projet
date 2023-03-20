@@ -1,33 +1,35 @@
 package ulb.algo2.node;
 
+import ulb.algo2.MBR;
+
 import java.util.List;
 
 
-public class Node<T> extends AbstractNode<T> {
+public class Node extends AbstractNode {
 
-	private List<AbstractNode<T>> children;
+	private List<AbstractNode> children;
 
 	// Constructor
-	public Node(T data, Node<T> father) {
+	public Node(MBR<Double> data, Node father) {
 		super(data, father);
 	}
 
-	public Node(T data, Node<T> father, List<AbstractNode<T>> children) {
+	public Node(MBR<Double> data, Node father, List<AbstractNode> children) {
 		this(data, father);
 		this.children = children;
 	}
 
 	// Modifiers
-	public void addChild(AbstractNode<T> child) { children.add(child); }
-	public void removeChild(AbstractNode<T> child) { children.remove(child); }
+	public void addChild(AbstractNode child) { children.add(child); }
+	public void removeChild(AbstractNode child) { children.remove(child); }
 
 	// Verifiers
-	public boolean isChild(AbstractNode<T> child) { return children.contains(child); }
+	public boolean isChild(AbstractNode child) { return children.contains(child); }
 
 	@Override
 	public boolean isLeaf() { return false; }
 
 	// Getters
-	public List<AbstractNode<T>> getChildren() { return children; }
+	public List<AbstractNode> getChildren() { return children; }
 
 }

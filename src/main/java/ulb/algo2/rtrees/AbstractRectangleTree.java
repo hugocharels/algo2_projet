@@ -1,27 +1,26 @@
 package ulb.algo2.rtrees;
 
+import org.locationtech.jts.geom.MultiPolygon;
+
 import ulb.algo2.MBR;
 import ulb.algo2.node.*;
 
-// en attendant
-class Polygon{}
-class Label{}
 
 
 public abstract class AbstractRectangleTree {
 
-	protected Node<MBR<Integer>> root;
+	protected Node root;
 
 
-	public Node<MBR<Integer>> chooseNode(Node<MBR<Integer>> node, Polygon polygon) {
+	public Node chooseNode(Node node, MultiPolygon polygon) {
 		// TODO implement
 		return null;
 	}
 
-	public void addLeaf(Node<MBR<Integer>> node, Label label, Polygon polygon) {
+	public void addLeaf(Node node, String label, MultiPolygon polygon) {
 		// TODO implement
 	}
 
-	public abstract Node<MBR<Integer>> split(Node<MBR<Integer>> node);
+	public abstract Node split(Node node);
 
 }
