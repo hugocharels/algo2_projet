@@ -1,15 +1,17 @@
 package ulb.algo2;
 
-
+import java.io.File;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.geometry.jts.ReferencedEnvelope;
+
 import ulb.algo2.rtrees.LinearRectangleTree;
 import ulb.algo2.rtrees.AbstractRectangleTree;
+import ulb.algo2.rtrees.QuadraticRectangleTree;
+import ulb.algo2.rtrees.RectangleTreeBuilder;
 
-import java.io.File;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
@@ -21,14 +23,15 @@ public class Main {
 		FileDataStore store = FileDataStoreFinder.getDataStore(file);
 		SimpleFeatureSource featureSource = store.getFeatureSource();
 		// les pays
-		SimpleFeatureCollection allFeatures=featureSource.getFeatures();
+		SimpleFeatureCollection allFeatures = featureSource.getFeatures();
 		store.dispose();
 
 
-		// Build the R-Tree
-		AbstractRectangleTree tree = new LinearRectangleTree();
-		// TODO: build the tree
-
+		// Build R-Trees
+		LinearRectangleTree linearTree = new LinearRectangleTree();
+		RectangleTreeBuilder.buildTree(linearTree, allFeatures);
+		QuadraticRectangleTree quadraticTree = new QuadraticRectangleTree();
+		RectangleTreeBuilder.buildTree(quadraticTree, allFeatures);
 
 		// Find the bounding box of the map
 		// TODO: find the bounding box of the map
