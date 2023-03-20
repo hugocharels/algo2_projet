@@ -4,7 +4,7 @@ import ulb.algo2.MBR;
 import ulb.algo2.node.Node;
 
 
-public class QuadraticRectangleTree extends RectangleTree {
+public class QuadraticRectangleTree extends AbstractRectangleTree {
 
 	@Override
 	public Node<MBR<Integer>> split(Node<MBR<Integer>> node) {

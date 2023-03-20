@@ -8,7 +8,7 @@ class Polygon{}
 class Label{}
 
 
-public abstract class RectangleTree {
+public abstract class AbstractRectangleTree {
 
 	protected Node<MBR<Integer>> root;
 
