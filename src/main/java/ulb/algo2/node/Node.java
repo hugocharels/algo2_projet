@@ -37,5 +37,8 @@ public class Node extends AbstractNode {
 
 	// Getters
 	public List<AbstractNode> getChildren() { return children; }
+	public AbstractNode getChild(int x) { return children.get(x); }
+	public int getChildrenNb() { return children.size(); }
+
 
 }
