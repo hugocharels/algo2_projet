@@ -4,18 +4,18 @@ import ulb.algo2.MBR;
 
 public abstract class AbstractNode {
 
-	private MBR<Double> data;
+	private MBR data;
 	private Node father;
 
 	// Constructor
-	public AbstractNode(Node father, MBR<Double> data) {
+	public AbstractNode(Node father, MBR data) {
 		this.data = data;
 		this.father = father;
 	}
 
 	// Modifiers
 	public void swapData(AbstractNode other) {
-		MBR<Double> temp = this.data;
+		MBR temp = this.data;
 		this.data = other.data;
 		other.data = temp;
 	}
@@ -34,10 +34,10 @@ public abstract class AbstractNode {
 
 	// Setters
 	public void setFather(Node father) { this.father = father; }
-	public void setData(MBR<Double> data) { this.data = data; }
+	public void setData(MBR data) { this.data = data; }
 
 	// Getters
 	public AbstractNode getFather() { return father; }
-	public MBR<Double> getData() { return data; }
+	public MBR getData() { return data; }
 
 }
