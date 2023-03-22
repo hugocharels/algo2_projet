@@ -1,42 +1,55 @@
 package ulb.algo2;
 
-public class MBR<T extends Number> {
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.MultiPolygon;
 
-	private final T xMin;
-	private final T xMax;
-	private final T yMin;
-	private final T yMax;
+
+public class MBR {
+
+	private final double xMin;
+	private final double xMax;
+	private final double yMin;
+	private final double yMax;
 
 
 	// Constructor
-	public MBR(T xMin, T xMax, T yMin, T yMax) {
+	public MBR(double xMin, double xMax, double yMin, double yMax) {
 		this.xMin = xMin;
 		this.xMax = xMax;
 		this.yMin = yMin;
 		this.yMax = yMax;
 	}
 
-	// Verifiers
-	public boolean contains(T x, T y) {
-		return (xMin.doubleValue() <= x.doubleValue() && x.doubleValue() <= xMax.doubleValue() && yMin.doubleValue() <= y.doubleValue() && y.doubleValue() <= yMax.doubleValue());
+	public MBR(MultiPolygon polygon) {
+		Coordinate[] coord = polygon.getEnvelope().getCoordinates();
+		this.xMin = coord[0].x;
+		this.xMax = coord[2].x;
+		this.yMin = coord[0].y;
+		this.yMax = coord[2].y;
 	}
 
-	public boolean contains(MBR<T> mbr) {
-		return (xMin.doubleValue() <= mbr.xMin.doubleValue() && mbr.xMax.doubleValue() <= xMax.doubleValue() && yMin.doubleValue() <= mbr.yMin.doubleValue() && mbr.yMax.doubleValue() <= yMax.doubleValue());
+	// Verifiers
+	public boolean contains(double x, double y) {
+		return (xMin <= x && x <= xMax && yMin <= y && y <= yMax);
+	}
+
+	public boolean contains(MBR mbr) {
+		return (xMin <= mbr.xMin && mbr.xMax <= xMax && yMin <= mbr.yMin && mbr.yMax <= yMax);
 	}
 
 	// Return the percentage of the area of the MBR that is covered by the given MBR
-	public double percentageCovered(MBR<T> mbr) {
-		double area = (xMax.doubleValue() - xMin.doubleValue()) * (yMax.doubleValue() - yMin.doubleValue());
-		double areaCovered = (Math.min(xMax.doubleValue(), mbr.xMax.doubleValue()) - Math.max(xMin.doubleValue(), mbr.xMin.doubleValue())) * (Math.min(yMax.doubleValue(), mbr.yMax.doubleValue()) - Math.max(yMin.doubleValue(), mbr.yMin.doubleValue()));
+	public double percentageCovered(MBR mbr) {
+		double area = (xMax - xMin) * (yMax - yMin);
+		double areaCovered = (Math.min(xMax, mbr.xMax) - Math.max(xMin, mbr.xMin)) * (Math.min(yMax, mbr.yMax) - Math.max(yMin, mbr.yMin));
 		return areaCovered / area;
 	}
 
 	// Getters
-	public T getXMin() { return xMin; }
-	public T getXMax() { return xMax; }
-	public T getYMin() { return yMin; }
-	public T getYMax() { return yMax; }
+	public double getXMin() { return xMin; }
+	public double getXMax() { return xMax; }
+	public double getYMin() { return yMin; }
+	public double getYMax() { return yMax; }
 
 
 

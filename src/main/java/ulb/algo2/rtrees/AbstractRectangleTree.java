@@ -1,5 +1,6 @@
 package ulb.algo2.rtrees;
 
+import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.MultiPolygon;
 
 import ulb.algo2.MBR;
@@ -13,16 +14,14 @@ public abstract class AbstractRectangleTree {
 
 
 	// Modifiers
-	public Node chooseNode(Node node, MultiPolygon polygon) throws Exception {
+	public Node chooseNode(Node node, MultiPolygon polygon) {
 		// TODO implement
 		return null;
 	}
 
-	public void Node addLeaf(Node node, String label, MultiPolygon polygon) {
+	public Node addLeaf(Node node, String label, MultiPolygon polygon) {
 		if (node.getChildrenNb() == 0 || node.getChild(0).isLeaf() ) {
-			// TODO MBR
-			MBR<Double> mbr = new MBR<Double>(0., 0., 0., 0.);
-			node.addChild(new Leaf(node, mbr, new LeafData(label, polygon)));
+			node.addChild(new Leaf(node, new MBR(polygon), new LeafData(label, polygon)));
 		} else {
 			// TODO je me suis peut être trompé
 			Node n = chooseNode(node, polygon);
