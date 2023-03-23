@@ -1,7 +1,6 @@
 package ulb.algo2.rtrees;
 
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Polygon;
 
 import ulb.algo2.MBR;
 import ulb.algo2.node.*;
@@ -11,26 +10,35 @@ import ulb.algo2.node.*;
 public abstract class AbstractRectangleTree {
 
 	protected Node root;
+	protected final int N;
 
+
+	// Constructor
+	public AbstractRectangleTree(int N) {
+		this.N = N;
+	}
 
 	// Modifiers
-	public Node chooseNode(Node node, MultiPolygon polygon) {
+	public Node chooseNode(Node node, Polygon polygon) {
 		// TODO implement
 		return null;
 	}
 
-	public Node addLeaf(Node node, String label, MultiPolygon polygon) {
+	public Node addLeaf(Node node, String label, Polygon polygon) {
 		if (node.getChildrenNb() == 0 || node.getChild(0).isLeaf() ) {
 			node.addChild(new Leaf(node, new MBR(polygon), new LeafData(label, polygon)));
 		} else {
-			// TODO je me suis peut être trompé
 			Node n = chooseNode(node, polygon);
 			Node new_node = addLeaf(n, label, polygon);
-			if (new_node != null) { n.addChild(new_node); }
+			if (new_node != null) {
+				// TODO en choisir 1
+				n.addChild(new_node);
+				node.addChild(new_node);
+			}
 		}
-		// TODO expand jsp quoi de l'énoncé
+		node.expandMBR(new MBR(polygon));
 		if (node.getChildrenNb() >= N) { return split(node); }
-		else { return null;}
+		return null;
 	}
 
 	public abstract Node split(Node node);

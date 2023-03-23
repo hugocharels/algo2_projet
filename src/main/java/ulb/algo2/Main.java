@@ -26,11 +26,12 @@ public class Main {
 		SimpleFeatureCollection allFeatures = featureSource.getFeatures();
 		store.dispose();
 
+		final int N = 4;
 
 		// Build R-Trees
-		LinearRectangleTree linearTree = new LinearRectangleTree();
+		LinearRectangleTree linearTree = new LinearRectangleTree(N);
 		RectangleTreeBuilder.buildTree(linearTree, allFeatures);
-		QuadraticRectangleTree quadraticTree = new QuadraticRectangleTree();
+		QuadraticRectangleTree quadraticTree = new QuadraticRectangleTree(N);
 		RectangleTreeBuilder.buildTree(quadraticTree, allFeatures);
 
 		// Find the bounding box of the map

@@ -1,6 +1,6 @@
 package ulb.algo2.node;
 
-import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Polygon;
 import ulb.algo2.MBR;
 import ulb.algo2.node.LeafData;
 
@@ -10,7 +10,7 @@ public class Leaf extends AbstractNode {
 	LeafData data;
 
 	// Constructor
-	public Leaf(Node father, MBR<Double> mbr, LeafData data) {
+	public Leaf(Node father, MBR mbr, LeafData data) {
 		super(father, mbr);
 		this.data = data;
 	}
@@ -30,12 +30,12 @@ public class Leaf extends AbstractNode {
 
 	// Setters
 	public void setData(LeafData data) { this.data = data; }
-	public void setDataPolygon(MultiPolygon polygon) { this.data.setPolygon(polygon); }
+	public void setDataPolygon(Polygon polygon) { this.data.setPolygon(polygon); }
 	public void setDataLabel(String label) { this.data.setLabel(label); }
 
 
 	// Getters
-	public MultiPolygon getDataPolygon() { return data.getPolygon(); }
+	public Polygon getDataPolygon() { return data.getPolygon(); }
 	public String getDataLabel() { return data.getLabel(); }
 
 

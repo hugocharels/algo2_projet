@@ -1,16 +1,15 @@
 package ulb.algo2;
 
 import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Polygon;
 
 
 public class MBR {
 
-	private final double xMin;
-	private final double xMax;
-	private final double yMin;
-	private final double yMax;
+	private double xMin;
+	private double xMax;
+	private double yMin;
+	private double yMax;
 
 
 	// Constructor
@@ -21,7 +20,7 @@ public class MBR {
 		this.yMax = yMax;
 	}
 
-	public MBR(MultiPolygon polygon) {
+	public MBR(Polygon polygon) {
 		Coordinate[] coord = polygon.getEnvelope().getCoordinates();
 		this.xMin = coord[0].x;
 		this.xMax = coord[2].x;
@@ -29,19 +28,28 @@ public class MBR {
 		this.yMax = coord[2].y;
 	}
 
+	// Modifiers
+	public void expand(MBR other) {
+		xMin = Math.min(xMin, other.xMin);
+		xMax = Math.max(xMax, other.xMax);
+		yMin = Math.min(yMin, other.yMin);
+		yMax = Math.max(yMax, other.yMax);
+	}
+
+
 	// Verifiers
 	public boolean contains(double x, double y) {
 		return (xMin <= x && x <= xMax && yMin <= y && y <= yMax);
 	}
 
-	public boolean contains(MBR mbr) {
-		return (xMin <= mbr.xMin && mbr.xMax <= xMax && yMin <= mbr.yMin && mbr.yMax <= yMax);
+	public boolean contains(MBR other) {
+		return (xMin <= other.xMin && other.xMax <= xMax && yMin <= other.yMin && other.yMax <= yMax);
 	}
 
 	// Return the percentage of the area of the MBR that is covered by the given MBR
-	public double percentageCovered(MBR mbr) {
+	public double percentageCovered(MBR other) {
 		double area = (xMax - xMin) * (yMax - yMin);
-		double areaCovered = (Math.min(xMax, mbr.xMax) - Math.max(xMin, mbr.xMin)) * (Math.min(yMax, mbr.yMax) - Math.max(yMin, mbr.yMin));
+		double areaCovered = (Math.min(xMax, other.xMax) - Math.max(xMin, other.xMin)) * (Math.min(yMax, other.yMax) - Math.max(yMin, other.yMin));
 		return areaCovered / area;
 	}
 

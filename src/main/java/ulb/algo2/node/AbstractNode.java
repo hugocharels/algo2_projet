@@ -26,6 +26,9 @@ public abstract class AbstractNode {
 		other.father = temp;
 	}
 
+	public void expandMBR(MBR other) {
+		this.data.expand(other);
+	}
 
 	// Verifiers
 	public boolean isFather(Node father) { return this.father == father; }
