@@ -25,7 +25,7 @@ public abstract class AbstractRectangleTree {
 	}
 
 	public Node addLeaf(Node node, String label, Polygon polygon) {
-		if (node.getChildrenNb() == 0 || node.getChild(0).isLeaf() ) {
+		if (node.hasNoChildren() || node.getChild(0).isLeaf() ) {
 			node.addChild(new Leaf(node, new MBR(polygon), new LeafData(label, polygon)));
 		} else {
 			Node n = chooseNode(node, polygon);
@@ -33,7 +33,7 @@ public abstract class AbstractRectangleTree {
 			if (new_node != null) { node.addChild(new_node); }
 		}
 		node.expandMBR(new MBR(polygon));
-		if (node.getChildrenNb() >= N) { return split(node); }
+		if (node.maxChildrenReach(N)) { return split(node); }
 		return null;
 	}
 

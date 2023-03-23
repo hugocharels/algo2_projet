@@ -12,6 +12,7 @@ public class Node extends AbstractNode {
 	// Constructor
 	public Node(Node father, MBR data) {
 		super(father, data);
+		this.children = new java.util.ArrayList<>();
 	}
 
 	public Node(Node father, MBR data, List<AbstractNode> children) {
@@ -34,13 +35,15 @@ public class Node extends AbstractNode {
 
 	public boolean hasLeaf() { return children.size() > 0 && children.get(0).isLeaf(); }
 
+	public boolean hasNoChildren() { return children.size() == 0; }
+
+	public boolean maxChildrenReach(int N) { return children.size() >= N; }
+
 	@Override
 	public boolean isLeaf() { return false; }
 
 	// Getters
 	public List<AbstractNode> getChildren() { return children; }
 	public AbstractNode getChild(int x) { return children.get(x); }
-	public int getChildrenNb() { return children.size(); }
-
 
 }
