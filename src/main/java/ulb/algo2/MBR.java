@@ -61,11 +61,8 @@ public class MBR {
 	}
 
 	public double getExpansion(MBR other) {
-		double xMin = Math.min(this.xMin, other.xMin);
-		double xMax = Math.max(this.xMax, other.xMax);
-		double yMin = Math.min(this.yMin, other.yMin);
-		double yMax = Math.max(this.yMax, other.yMax);
-		return (xMax - xMin) * (yMax - yMin) - getArea();
+		return (Math.max(this.xMax, other.xMax) - Math.min(this.xMin, other.xMin)) *
+				(Math.max(this.yMax, other.yMax) - Math.min(this.yMin, other.yMin)) - getArea();
 	}
 
 	public double getXMin() { return xMin; }
