@@ -26,9 +26,9 @@ public class Main {
 		SimpleFeatureCollection allFeatures = featureSource.getFeatures();
 		store.dispose();
 
-		final int N = 4;
 
 		// Build R-Trees
+		final int N = 4;
 		LinearRectangleTree linearTree = new LinearRectangleTree(N);
 		RectangleTreeBuilder.buildTree(linearTree, allFeatures);
 		QuadraticRectangleTree quadraticTree = new QuadraticRectangleTree(N);

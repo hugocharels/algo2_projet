@@ -20,8 +20,17 @@ public abstract class AbstractRectangleTree {
 
 	// Modifiers
 	public Node chooseNode(Node node, Polygon polygon) {
-		// TODO implement
-		return null;
+		Node best = null;
+		for (AbstractNode n : node.getChildren()) {
+			if (best == null) { best = (Node) n; continue; }
+			double best_area = best.getMBR().getArea();
+			double n_area = n.getMBR().getArea();
+			double best_expansion = best.getMBR().getExpansion(new MBR(polygon));
+			double n_expansion = n.getMBR().getExpansion(new MBR(polygon));
+			if (n_expansion < best_expansion) { best = (Node) n; }
+			else if (n_expansion == best_expansion && n_area < best_area) { best = (Node) n; }
+		}
+		return best;
 	}
 
 	public Node addLeaf(Node node, String label, Polygon polygon) {
