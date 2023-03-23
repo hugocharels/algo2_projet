@@ -30,11 +30,7 @@ public abstract class AbstractRectangleTree {
 		} else {
 			Node n = chooseNode(node, polygon);
 			Node new_node = addLeaf(n, label, polygon);
-			if (new_node != null) {
-				// TODO en choisir 1
-				n.addChild(new_node);
-				node.addChild(new_node);
-			}
+			if (new_node != null) { node.addChild(new_node); }
 		}
 		node.expandMBR(new MBR(polygon));
 		if (node.getChildrenNb() >= N) { return split(node); }

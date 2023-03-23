@@ -32,6 +32,8 @@ public class Node extends AbstractNode {
 	// Verifiers
 	public boolean isChild(AbstractNode child) { return children.contains(child); }
 
+	public boolean hasLeaf() { return children.size() > 0 && children.get(0).isLeaf(); }
+
 	@Override
 	public boolean isLeaf() { return false; }
 
