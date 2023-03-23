@@ -13,6 +13,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	    <geotools.version>30-SNAPSHOT</geotools.version>
+        <junit.version>5.9.1</junit.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
   </properties>
@@ -29,6 +30,20 @@
       <artifactId>gt-swing</artifactId>
       <version>${geotools.version}</version>
     </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <!-- <scope>test</scope> -->
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <!-- <scope>test</scope> -->
+        </dependency>
+
+
   </dependencies>
 
 
@@ -78,7 +93,8 @@
 	    <archive>
 	      <manifest>
                 <!-- <addClasspath>true</addClasspath> -->
-		<mainClass>ulb.algo2.SinglePoint</mainClass>
+		<!-- <mainClass>ulb.algo2.SinglePoint</mainClass> -->
+		<mainClass>ulb.algo2.Main</mainClass>
 	      </manifest>
 	    </archive>
 	  </configuration>
@@ -88,7 +104,8 @@
               <configuration>
                 <archive>
                   <manifest>
-                    <mainClass>ulb.algo2.SinglePoint</mainClass>
+                    <!-- <mainClass>ulb.algo2.SinglePoint</mainClass> -->
+		<mainClass>ulb.algo2.Main</mainClass>
                   </manifest>
                 </archive>
                 <descriptorRefs>
@@ -102,7 +119,8 @@
             <artifactId>exec-maven-plugin</artifactId>
             <version>3.0.0</version>
             <configuration>
-		<mainClass>ulb.algo2.SinglePoint</mainClass>
+		<!-- <mainClass>ulb.algo2.SinglePoint</mainClass> -->
+		<mainClass>ulb.algo2.Main</mainClass>
             </configuration>
         </plugin>
 
