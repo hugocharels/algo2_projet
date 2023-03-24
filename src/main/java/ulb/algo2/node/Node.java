@@ -23,6 +23,7 @@ public class Node extends AbstractNode {
 	// Modifiers
 	public void addChild(AbstractNode child) { children.add(child); }
 	public void removeChild(AbstractNode child) { children.remove(child); }
+	public void removeChildren() { children.clear(); }
 
 	public void swapChildren(Node other) {
 		List<AbstractNode> temp = children;

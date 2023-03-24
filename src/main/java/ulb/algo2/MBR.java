@@ -20,6 +20,13 @@ public class MBR {
 		this.yMax = yMax;
 	}
 
+	public MBR(MBR other) {
+		this.xMin = other.xMin;
+		this.xMax = other.xMax;
+		this.yMin = other.yMin;
+		this.yMax = other.yMax;
+	}
+
 	public MBR(Polygon polygon) {
 		Coordinate[] coord = polygon.getEnvelope().getCoordinates();
 		this.xMin = coord[0].x;

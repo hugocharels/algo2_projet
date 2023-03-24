@@ -4,6 +4,8 @@ import ulb.algo2.MBR;
 import ulb.algo2.node.AbstractNode;
 import ulb.algo2.node.Node;
 
+import java.util.List;
+
 
 public class QuadraticRectangleTree extends AbstractRectangleTree {
 
@@ -38,14 +40,29 @@ public class QuadraticRectangleTree extends AbstractRectangleTree {
 		return nodes;
 	}
 
-
-	// Split override
-	@Override
-	public Node split(Node node) {
-		AbstractNodePair seeds = pickSeeds(node);
-
-		return null;
+	public void pickNext(Node n1, Node n2, List<AbstractNode> children) {
+		for (AbstractNode child : children) {
+			if (n1.getMBR().getExpansion(child.getMBR()) < n2.getMBR().getExpansion(child.getMBR())) {
+				n1.addChild(child);
+				n1.expandMBR(child.getMBR());
+			} else {
+				n2.addChild(child);
+				n2.expandMBR(child.getMBR());
+			}
+		}
 	}
 
-
+	@Override
+	public Node split(Node node) {
+		// Get the two seeds
+		AbstractNodePair seeds = this.pickSeeds(node);
+		// Create a copy of the children
+		List<AbstractNode> children = new java.util.ArrayList<>(node.getChildren());
+		node.removeChildren();
+		// Sets mbr of nodes
+		node.setMBR(seeds.n1.getMBR());
+		Node new_node = new Node(node.getFather(), new MBR(seeds.n2.getMBR()));
+		this.pickNext(node, new_node, children);
+		return new_node;
+	}
 }

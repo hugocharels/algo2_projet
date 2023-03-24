@@ -40,7 +40,7 @@ public abstract class AbstractNode {
 	public void setMBR(MBR mbr) { this.mbr = mbr; }
 
 	// Getters
-	public AbstractNode getFather() { return father; }
+	public Node getFather() { return father; }
 	public MBR getMBR() { return mbr; }
 
 }
