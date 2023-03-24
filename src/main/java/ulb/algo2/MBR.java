@@ -36,7 +36,6 @@ public class MBR {
 		yMax = Math.max(yMax, other.yMax);
 	}
 
-
 	// Verifiers
 	public boolean contains(double x, double y) {
 		return (xMin <= x && x <= xMax && yMin <= y && y <= yMax);
@@ -54,8 +53,6 @@ public class MBR {
 	}
 
 	// Getters
-
-
 	public double getArea() {
 		return (xMax - xMin) * (yMax - yMin);
 	}
@@ -63,6 +60,11 @@ public class MBR {
 	public double getExpansion(MBR other) {
 		return (Math.max(this.xMax, other.xMax) - Math.min(this.xMin, other.xMin)) *
 				(Math.max(this.yMax, other.yMax) - Math.min(this.yMin, other.yMin)) - getArea();
+	}
+
+	public MBR getUnion(MBR other) {
+		return new MBR(Math.min(this.xMin, other.xMin), Math.max(this.xMax, other.xMax),
+				Math.min(this.yMin, other.yMin), Math.max(this.yMax, other.yMax));
 	}
 
 	public double getXMin() { return xMin; }
