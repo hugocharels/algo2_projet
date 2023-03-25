@@ -38,5 +38,9 @@ public class Leaf extends AbstractNode {
 	public Polygon getDataPolygon() { return data.getPolygon(); }
 	public String getDataLabel() { return data.getLabel(); }
 
+	@Override
+	public String toString() {
+		return " Leaf : " + data.getLabel();
+	}
 
 }

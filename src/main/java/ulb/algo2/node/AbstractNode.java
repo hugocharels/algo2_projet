@@ -43,4 +43,8 @@ public abstract class AbstractNode {
 	public Node getFather() { return father; }
 	public MBR getMBR() { return mbr; }
 
+	public String toString() {
+		return "Node" ;
+	}
+
 }

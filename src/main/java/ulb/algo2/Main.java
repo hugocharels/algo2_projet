@@ -28,11 +28,19 @@ public class Main {
 
 
 		// Build R-Trees
-		final int N = 4;
+		final int N = 10;
 		LinearRectangleTree linearTree = new LinearRectangleTree(N);
 		RectangleTreeBuilder.buildTree(linearTree, allFeatures);
 		QuadraticRectangleTree quadraticTree = new QuadraticRectangleTree(N);
 		RectangleTreeBuilder.buildTree(quadraticTree, allFeatures);
+
+		// Print the trees
+		System.out.println("Linear R-Tree:");
+		linearTree.print();
+		System.out.println("");
+		System.out.println("Quadratic R-Tree:");
+		quadraticTree.print();
+		System.out.println("");
 
 		// Find the bounding box of the map
 		// TODO: find the bounding box of the map
