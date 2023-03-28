@@ -1,9 +1,12 @@
 package ulb.algo2.rtrees;
 
+import org.geotools.geometry.jts.GeometryBuilder;
 import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.Point;
 import java.util.List;
 import java.util.Queue;
 import java.util.LinkedList;
+import java.util.function.BiConsumer;
 
 import ulb.algo2.MBR;
 import ulb.algo2.node.*;
@@ -112,6 +115,44 @@ public abstract class AbstractRectangleTree {
 
 	// Setter
 	public void setRoot(Node root) { this.root = root; }
+
+
+	// Search
+
+	public boolean find(double x, double y) {
+		return find(new GeometryBuilder().point(x, y));
+	}
+
+	/*
+	public boolean find(Point p) {
+		AbstractNode node = root;
+		while (!node.isLeaf()) {
+			boolean found = false;
+			for (AbstractNode n : ((Node) node).getChildren()) {
+				if (n.getMBR().contains(p)) {
+					node = n;
+					found = true;
+					break;
+				}
+			} if (!found) { return false; }
+		}
+		return node.getMBR().contains(p);
+	}
+	*/
+
+	public boolean find(Point p) {
+		Queue<AbstractNode> queue = new LinkedList<AbstractNode>();
+		queue.add(root);
+		BiConsumer<Node, Queue<AbstractNode>> addChildrenToQueue = (n, q) -> n.getChildren().stream().filter(child -> child.getMBR().contains(p)).forEach(q::add);
+		while (!queue.isEmpty()) {
+			AbstractNode temp = queue.poll();
+			if (temp.isLeaf() && temp.getMBR().contains(p)) { return true; }
+			addChildrenToQueue.accept((Node) temp, queue);
+		}
+		return false;
+	}
+
+
 
 
 	// Display

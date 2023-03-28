@@ -5,8 +5,10 @@ import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
+import org.geotools.geometry.jts.GeometryBuilder;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 
+import org.locationtech.jts.geom.Point;
 import ulb.algo2.rtrees.LinearRectangleTree;
 import ulb.algo2.rtrees.AbstractRectangleTree;
 import ulb.algo2.rtrees.QuadraticRectangleTree;
@@ -34,6 +36,7 @@ public class Main {
 		QuadraticRectangleTree quadraticTree = new QuadraticRectangleTree(N);
 		RectangleTreeBuilder.buildTree(quadraticTree, allFeatures);
 
+		/*
 		// Print the trees
 		System.out.println("Linear R-Tree:");
 		linearTree.print();
@@ -41,6 +44,7 @@ public class Main {
 		System.out.println("Quadratic R-Tree:");
 		quadraticTree.print();
 		System.out.println("");
+		*/
 
 		// Find the bounding box of the map
 		// TODO: find the bounding box of the map

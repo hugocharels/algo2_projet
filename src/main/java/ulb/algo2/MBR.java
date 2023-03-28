@@ -1,6 +1,7 @@
 package ulb.algo2;
 
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 
@@ -44,6 +45,7 @@ public class MBR {
 	}
 
 	// Verifiers
+	public boolean contains(Point point) { return (xMin <= point.getX() && point.getX() <= xMax && yMin <= point.getY() && point.getY() <= yMax); }
 	public boolean contains(double x, double y) {
 		return (xMin <= x && x <= xMax && yMin <= y && y <= yMax);
 	}
@@ -60,9 +62,7 @@ public class MBR {
 	}
 
 	// Getters
-	public double getArea() {
-		return (xMax - xMin) * (yMax - yMin);
-	}
+	public double getArea() { return (xMax - xMin) * (yMax - yMin); }
 
 	public double getExpansion(MBR other) {
 		return (Math.max(this.xMax, other.xMax) - Math.min(this.xMin, other.xMin)) *
@@ -78,7 +78,5 @@ public class MBR {
 	public double getXMax() { return xMax; }
 	public double getYMin() { return yMin; }
 	public double getYMax() { return yMax; }
-
-
 
 }
