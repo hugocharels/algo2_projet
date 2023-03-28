@@ -146,7 +146,12 @@ public abstract class AbstractRectangleTree {
 		BiConsumer<Node, Queue<AbstractNode>> addChildrenToQueue = (n, q) -> n.getChildren().stream().filter(child -> child.getMBR().contains(p)).forEach(q::add);
 		while (!queue.isEmpty()) {
 			AbstractNode temp = queue.poll();
-			if (temp.isLeaf() && temp.getMBR().contains(p)) { return true; }
+			if (temp.isLeaf()) {
+				if (((Leaf)temp).getDataPolygon().contains(p)){
+					System.out.println(temp);
+					return true;
+				} else { continue; }
+			}
 			addChildrenToQueue.accept((Node) temp, queue);
 		}
 		return false;

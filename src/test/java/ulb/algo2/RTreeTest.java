@@ -19,8 +19,9 @@ public class RTreeTest {
 	@Test
 	public void find() throws Exception {
 
-		LinearRectangleTree LTree = new LinearRectangleTree(5);
-		QuadraticRectangleTree QTree = new QuadraticRectangleTree(5);
+		final int N = 20;
+		LinearRectangleTree LTree = new LinearRectangleTree(N);
+		QuadraticRectangleTree QTree = new QuadraticRectangleTree(N);
 		String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
 
 		File file = new File(filename);
