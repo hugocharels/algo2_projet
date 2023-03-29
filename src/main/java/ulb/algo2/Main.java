@@ -5,12 +5,12 @@ import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.geotools.geometry.jts.GeometryBuilder;
-import org.geotools.geometry.jts.ReferencedEnvelope;
+// import org.geotools.geometry.jts.GeometryBuilder;
+// import org.geotools.geometry.jts.ReferencedEnvelope;
 
-import org.locationtech.jts.geom.Point;
+// import org.locationtech.jts.geom.Point;
 import ulb.algo2.rtrees.LinearRectangleTree;
-import ulb.algo2.rtrees.AbstractRectangleTree;
+// import ulb.algo2.rtrees.AbstractRectangleTree;
 import ulb.algo2.rtrees.QuadraticRectangleTree;
 import ulb.algo2.rtrees.RectangleTreeBuilder;
 
@@ -26,32 +26,23 @@ public class Main {
 		SimpleFeatureSource featureSource = store.getFeatureSource();
 		// les pays
 		SimpleFeatureCollection allFeatures = featureSource.getFeatures();
-		store.dispose();
-
+		// store.dispose();
+		System.out.println("Building R-Trees...");
 
 		// Build R-Trees
 		final int N = 10;
+		System.out.println("N = " + N);
+		System.out.println("Building linear R-Tree...");
 		LinearRectangleTree linearTree = new LinearRectangleTree(N);
 		RectangleTreeBuilder.buildTree(linearTree, allFeatures);
+		System.out.println("Building quadratic R-Tree...");
 		QuadraticRectangleTree quadraticTree = new QuadraticRectangleTree(N);
 		RectangleTreeBuilder.buildTree(quadraticTree, allFeatures);
+		System.out.println("Done.");
+		linearTree.find(147306.96, 166818.79);
+		
+		System.exit(0);
 
-		/*
-		// Print the trees
-		System.out.println("Linear R-Tree:");
-		linearTree.print();
-		System.out.println("");
-		System.out.println("Quadratic R-Tree:");
-		quadraticTree.print();
-		System.out.println("");
-		*/
-
-		// Find the bounding box of the map
-		// TODO: find the bounding box of the map
-
-
-		// Display the map
-
-	}
+		}
 
 }
