@@ -9,3 +9,11 @@ run directly with: mvn clean compiler:compile exec:java "-Dexec.mainClass=ulb.al
 create the jar file with dep: mvn clean compile assembly:single
 
 after run .jar in target with java -jar
+ _____
+< UwU >
+ -----
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||--WWW |
+                ||     ||

@@ -32,15 +32,19 @@ public class Main {
 		SimpleFeatureSource featureSource = store.getFeatureSource();
 		// les pays
 		SimpleFeatureCollection allFeatures = featureSource.getFeatures();
-		store.dispose();
-
+		// store.dispose();
+		System.out.println("Building R-Trees...");
 
 		// Build R-Trees
 		final int N = 10;
+		System.out.println("N = " + N);
+		System.out.println("Building linear R-Tree...");
 		LinearRectangleTree linearTree = new LinearRectangleTree(N);
 		RectangleTreeBuilder.buildTree(linearTree, allFeatures);
+		System.out.println("Building quadratic R-Tree...");
 		QuadraticRectangleTree quadraticTree = new QuadraticRectangleTree(N);
 		RectangleTreeBuilder.buildTree(quadraticTree, allFeatures);
+		System.out.println("Done.");
 
 		/*
 		// Print the trees

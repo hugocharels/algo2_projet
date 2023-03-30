@@ -35,7 +35,11 @@ public class RTreeTest {
 
 		RectangleTreeBuilder.buildTree(LTree, allFeatures);
 		RectangleTreeBuilder.buildTree(QTree, allFeatures);
-
+		String res =" Leaf : NEPTUNE (AVENUE) I";
+		// assertTrue(LTree.find(147306.96, 166818.79).equals(res));
+		// assertTrue(QTree.find(147306.96, 166818.79).equals(res));
+		// assertFalse(LTree.find(0., 0.).equals(res));
+		// assertFalse(QTree.find(0., 0.).equals(res));
 		assertFalse(LTree.find(0., 0.));
 		assertFalse(QTree.find(0., 0.));
 
