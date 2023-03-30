@@ -39,7 +39,7 @@ public class RTreeTest {
 		assertFalse(LTree.find(0., 0.));
 		assertFalse(QTree.find(0., 0.));
 
-		assertTrue(LTree.find(147306.96, 166818.79));
+		assertTrue(LTree.find(152183, 167679));
 		assertTrue(QTree.find(147306.96, 166818.79));
 
 	}

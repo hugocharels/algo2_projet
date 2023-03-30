@@ -35,6 +35,7 @@ public class Leaf extends AbstractNode {
 
 
 	// Getters
+	public LeafData getData() { return data; }
 	public Polygon getDataPolygon() { return data.getPolygon(); }
 	public String getDataLabel() { return data.getLabel(); }
 

@@ -119,7 +119,7 @@ public abstract class AbstractRectangleTree {
 
 	// Search
 
-	public boolean find(double x, double y) {
+	public LeafData find(double x, double y) {
 		return find(new GeometryBuilder().point(x, y));
 	}
 
@@ -140,7 +140,7 @@ public abstract class AbstractRectangleTree {
 	}
 	*/
 
-	public boolean find(Point p) {
+	public LeafData find(Point p) {
 		Queue<AbstractNode> queue = new LinkedList<AbstractNode>();
 		queue.add(root);
 		BiConsumer<Node, Queue<AbstractNode>> addChildrenToQueue = (n, q) -> n.getChildren().stream().filter(child -> child.getMBR().contains(p)).forEach(q::add);
@@ -149,12 +149,12 @@ public abstract class AbstractRectangleTree {
 			if (temp.isLeaf()) {
 				if (((Leaf)temp).getDataPolygon().contains(p)){
 					System.out.println(temp);
-					return true;
+					return ((Leaf)temp).getData();
 				} else { continue; }
 			}
 			addChildrenToQueue.accept((Node) temp, queue);
 		}
-		return false;
+		return null;
 	}
 
 
