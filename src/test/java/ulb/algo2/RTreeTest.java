@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import ulb.algo2.rtrees.LinearRectangleTree;
 import ulb.algo2.rtrees.QuadraticRectangleTree;
 import ulb.algo2.rtrees.RectangleTreeBuilder;
+import ulb.algo2.rtrees.GuttmanTree;
 
 import java.io.File;
 
@@ -22,6 +23,7 @@ public class RTreeTest {
 		final int N = 20;
 		LinearRectangleTree LTree = new LinearRectangleTree(N);
 		QuadraticRectangleTree QTree = new QuadraticRectangleTree(N);
+		GuttmanTree GTree = new GuttmanTree(N);
 		String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
 
 		File file = new File(filename);
@@ -35,16 +37,20 @@ public class RTreeTest {
 
 		RectangleTreeBuilder.buildTree(LTree, allFeatures);
 		RectangleTreeBuilder.buildTree(QTree, allFeatures);
-		String res =" Leaf : NEPTUNE (AVENUE) I";
-		// assertTrue(LTree.find(147306.96, 166818.79).equals(res));
-		// assertTrue(QTree.find(147306.96, 166818.79).equals(res));
-		// assertFalse(LTree.find(0., 0.).equals(res));
-		// assertFalse(QTree.find(0., 0.).equals(res));
-		assertFalse(LTree.find(0., 0.));
-		assertFalse(QTree.find(0., 0.));
+		RectangleTreeBuilder.buildTree(GTree, allFeatures);	
 
-		assertTrue(LTree.find(152183, 167679));
-		assertTrue(QTree.find(147306.96, 166818.79));
+		// String res =" Leaf : NEPTUNE (AVENUE) I";
+		assertTrue(LTree.find(147306.96, 166818.79) != null);
+		assertTrue(QTree.find(147306.96, 166818.79) != null);
+		assertTrue(GTree.find(147306.96, 166818.79) != null);
+		assertTrue(LTree.find(0., 0.) == null);
+		assertTrue(QTree.find(0., 0.) == null);
+		assertTrue(GTree.find(0., 0.) == null);
+		// assertFalse(LTree.find(0., 0.)==null);
+		// assertFalse(QTree.find(0., 0.));
+
+		// assertTrue(LTree.find(152183, 167679));
+		// assertTrue(QTree.find(147306.96, 166818.79));
 
 	}
 

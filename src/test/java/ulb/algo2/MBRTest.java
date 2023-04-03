@@ -45,8 +45,16 @@ public class MBRTest {
 	// Getters
 	@Test
 	public void area() {
-		MBR mbr = new MBR(0, 1, 0, 1);
-		assertEquals(1, mbr.getArea());
+		MBR mbrArea1 = new MBR(0, 1, 0, 1);
+		MBR mbrArea2 = new MBR(0, 2, 0, 2);
+		MBR mbrArea5 = new MBR(0, 1, 0, 5);
+		MBR mbrArea1234 = new MBR(1,2,3,4);
+		MBR wtf = new MBR(1,12,8, 30);
+		assertEquals(242, wtf.getArea());
+		assertEquals(1, mbrArea1.getArea());
+		assertEquals(4, mbrArea2.getArea());
+		assertEquals(5, mbrArea5.getArea());
+		assertEquals(1, mbrArea1234.getArea());
 	}
 
 	@Test

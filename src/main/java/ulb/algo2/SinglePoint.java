@@ -56,7 +56,7 @@ public class SinglePoint {
 
         //String filename="../algo2_projet/data/WB_countries_Admin0_10m/WB_countries_Admin0_10m.shp";
         
-        //String filename="../algo2_projet/data/communes-20220101-shp/communes-20220101.shp";
+        //String yoyoyooyyooyyooyyooy20220101-shp/communes-20220101.shp";
         
         File file = new File(filename);
         if (!file.exists())

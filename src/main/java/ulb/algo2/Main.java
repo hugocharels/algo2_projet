@@ -19,6 +19,7 @@ import ulb.algo2.node.LeafData;
 import ulb.algo2.rtrees.LinearRectangleTree;
 import ulb.algo2.rtrees.QuadraticRectangleTree;
 import ulb.algo2.rtrees.RectangleTreeBuilder;
+import ulb.algo2.rtrees.GuttmanTree;
 
 
 public class Main {
@@ -44,6 +45,9 @@ public class Main {
 		System.out.println("Building quadratic R-Tree...");
 		QuadraticRectangleTree quadraticTree = new QuadraticRectangleTree(N);
 		RectangleTreeBuilder.buildTree(quadraticTree, allFeatures);
+		System.out.println("Building Guttman R-Tree...");
+		GuttmanTree guttmanTree = new GuttmanTree(N);
+		RectangleTreeBuilder.buildTree(guttmanTree, allFeatures);
 		System.out.println("Done.");
 
 		/*
@@ -81,6 +85,7 @@ public class Main {
 		MapFrame.showMap(map);
 
 		*/
+		System.exit(0);
 	}
 
 }
