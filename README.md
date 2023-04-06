@@ -17,8 +17,11 @@ after run .jar in target with java -jar
             (__)\       )\/\
                 ||--WWW |
                 ||     ||
+
 yo yoy
 
 long startTime = System.nanoTime();
 methodToTime();
 long endTime = System.nanoTime();
+petit test de push encore :)
+
