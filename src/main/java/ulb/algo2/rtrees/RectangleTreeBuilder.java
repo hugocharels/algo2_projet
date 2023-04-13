@@ -15,7 +15,8 @@ import ulb.algo2.node.Node;
 
 public class RectangleTreeBuilder {
 
-	public static void buildTree(AbstractRectangleTree tree, SimpleFeatureCollection features) {
+	public static long buildTree(AbstractRectangleTree tree, SimpleFeatureCollection features) {
+		long startTime = System.currentTimeMillis();
 		ReferencedEnvelope bounds = features.getBounds();
 		Node root = new Node(null, new MBR(bounds.getMinX(), bounds.getMaxX(), bounds.getMinY(), bounds.getMaxY()));
 		tree.setRoot(root);
@@ -28,6 +29,9 @@ public class RectangleTreeBuilder {
 				}
 			}
 		}
+		long endTime = System.currentTimeMillis();
+		long duration = (endTime - startTime);
+		return duration;
 	}
 
 }

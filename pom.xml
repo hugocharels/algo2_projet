@@ -16,6 +16,8 @@
         <junit.version>5.9.1</junit.version>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <mainClass>ulb.algo2.Main</mainClass>
+    <!-- <mainClass>ulb.algo2.SinglePoint</mainClass> -->
   </properties>
 
   <dependencies>
@@ -93,8 +95,7 @@
 	    <archive>
 	      <manifest>
                 <!-- <addClasspath>true</addClasspath> -->
-		<!-- <mainClass>ulb.algo2.SinglePoint</mainClass> -->
-		<mainClass>ulb.algo2.Main</mainClass>
+		<mainClass>${mainClass}</mainClass>
 	      </manifest>
 	    </archive>
 	  </configuration>
@@ -104,8 +105,7 @@
               <configuration>
                 <archive>
                   <manifest>
-                    <!-- <mainClass>ulb.algo2.SinglePoint</mainClass> -->
-		<mainClass>ulb.algo2.Main</mainClass>
+		    <mainClass>${mainClass}</mainClass>
                   </manifest>
                 </archive>
                 <descriptorRefs>
@@ -119,8 +119,7 @@
             <artifactId>exec-maven-plugin</artifactId>
             <version>3.0.0</version>
             <configuration>
-		<!-- <mainClass>ulb.algo2.SinglePoint</mainClass> -->
-		<mainClass>ulb.algo2.Main</mainClass>
+		<mainClass>${mainClass}</mainClass>
             </configuration>
         </plugin>
 
