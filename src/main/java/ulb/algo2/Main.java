@@ -2,6 +2,11 @@ package ulb.algo2;
 
 import java.awt.*;
 import java.io.File;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Vector;
+
+import org.apache.commons.lang3.SystemUtils;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
@@ -45,22 +50,26 @@ public class Main {
 		// System.out.println("Leaf found in " + duration + " ms");
 	}
 
-	public static long statTimeToFind(AbstractRectangleTree tree) {
-	    int N = 10000;	
-	    long startTime = System.currentTimeMillis();
+	// public static long statTimeToFind(AbstractRectangleTree tree, int numberOfSearches) {
+	public static float statTimeToFind(AbstractRectangleTree tree, double[] posX, double[] posY) {
 	    long totalDuration = 0;
-
-	    for(int i=0; i<N; i++) {
-		double x = Math.random() * 100000;
-		double y = Math.random() * 100000;
-		// System.out.println("Searching for (" + x + ", " + y + ")");
-		tree.find(x, y);
-		totalDuration += (System.currentTimeMillis() - startTime);
+	    long startTime;
+	    startTime = System.nanoTime();
+	    // startTime = System.currentTimeMillis();
+	    for(int i=0; i<posX.length; i++) {
+		tree.find(posX[i], posY[i]);
 	    }
-		// tree.find(x, y);
-	    long duration = totalDuration / N;
-	    return duration;
-		// System.out.println("Leaf found in " + duration + " ms");
+		// totalDuration += (System.currentTimeMillis() - startTime);
+		totalDuration += (System.nanoTime() - startTime);
+	    long meanDuration = totalDuration / posX.length;
+	    long duration = meanDuration / 1000;
+	    long dec = meanDuration - duration * 1000;
+	    float durationFloat = (float)duration + (float)dec / 1000;
+	    // float durationFloat = (float)duration;
+	    // float durationFloat = (float)meanDuration/1000 + (float)(meanDuration-(meanDurat  io n/)) / 1000;
+	    // System.out.println("Leaf found in " + durationFloat + " ms");
+	    // long duration = totalDuration;
+	    return durationFloat;
     }
 
 	public static void main(String[] args) throws Exception {
@@ -74,11 +83,30 @@ public class Main {
 		// les pays
 		SimpleFeatureCollection allFeatures = featureSource.getFeatures();
 		// store.dispose();
-		System.out.println("Building R-Trees...");
 
+		int numberOfSearches = 100000;
+		double posX[] = new double[numberOfSearches];
+		double posY[] = new double[numberOfSearches];
+		
+		for(int i=0; i<numberOfSearches; i++) {
+			posX[i] = (double)(Math.random() * 100000);
+			posY[i] = (double)(Math.random() * 100000);
+		}
+
+		int numberOfSearches2 = 10;
+		double posX2[] = new double[numberOfSearches];
+		double posY2[] = new double[numberOfSearches];
+		
+		for(int i=0; i<numberOfSearches; i++) {
+			posX2[i] = (double)(Math.random() * 100000);
+			posY2[i] = (double)(Math.random() * 100000);
+		}
+
+		System.out.println("Building R-Trees...");
 		// Build R-Trees
-		final int N = 10;
+		final int N = 200;
 		long duration, startTime, endTime;
+		float durationFloat;
 		System.out.println("N = " + N);
 
 		System.out.println("Building linear R-Tree...");
@@ -98,33 +126,47 @@ public class Main {
 		System.out.println("Done.");
 
 
-		System.out.println("Searching for a leaf...");
-		System.out.println("Linear R-Tree:");
-		startTime = System.currentTimeMillis();
-		linearTree.find(147306.96, 166818.79);
-		duration = (System.currentTimeMillis() - startTime);
-		System.out.println("Linear R-Tree found the leaf in " + duration + " ms");
-		System.out.println("Quadratic R-Tree:");
-		startTime = System.currentTimeMillis();
-		quadraticTree.find(147306.96, 166818.79);
-		duration = (System.currentTimeMillis() - startTime);
-		System.out.println("Quadratic R-Tree found the leaf in " + duration + " ms");
-		System.out.println("Guttman R-Tree:");
-		startTime = System.currentTimeMillis();
-		guttmanTree.find(147306.96, 166818.79);
-		duration = (System.currentTimeMillis() - startTime);
-		System.out.println("Guttman R-Tree found the leaf in " + duration + " ms");
-		System.out.println("Done.");
+		// System.out.println("Searching for a leaf...");
+		// System.out.println("Linear R-Tree:");
+		// startTime = System.currentTimeMillis();
+		// linearTree.find(147306.96, 166818.79);
+		// duration = (System.currentTimeMillis() - startTime);
+		// System.out.println("Linear R-Tree found the leaf in " + duration + " ms");
+		// System.out.println("Quadratic R-Tree:");
+		// startTime = System.currentTimeMillis();
+		// quadraticTree.find(147306.96, 166818.79);
+		// duration = (System.currentTimeMillis() - startTime);
+		// System.out.println("Quadratic R-Tree found the leaf in " + duration + " ms");
+		// System.out.println("Guttman R-Tree:");
+		// startTime = System.currentTimeMillis();
+		// guttmanTree.find(147306.96, 166818.79);
+		// duration = (System.currentTimeMillis() - startTime);
+		// System.out.println("Guttman R-Tree found the leaf in " + duration + " ms");
+		// System.out.println("Done.");
 
-		System.out.println("mean time to find a leaf in a linear R-Tree of size " + N );
-		// duration = linearTree.statTimeToFind();	
-		duration = statTimeToFind(linearTree);
-		System.out.println("mean time to find a leaf in a linear R-Tree of size " + N + " is " + duration + " ms");
-		duration = statTimeToFind(quadraticTree);
-		System.out.println("mean time to find a leaf in a quadratic R-Tree of size " + N + " is " + duration + " ms");
-		duration = statTimeToFind(guttmanTree);
-		System.out.println("mean time to find a leaf in a Guttman R-Tree of size " + N + " is " + duration + " ms");
+		System.out.println("mean time to find a leaf in a R-Tree of size " + N );
+		System.out.println("number of searches: " + numberOfSearches);
+		durationFloat = statTimeToFind(linearTree, posX, posY);
+		System.out.println("linearTree duration: " + durationFloat + " µs");
 
+		durationFloat = statTimeToFind(quadraticTree, posX, posY);
+		System.out.println("quadraticTree duration: " + durationFloat + " µs");
+
+
+		durationFloat = statTimeToFind(guttmanTree, posX, posY);
+		System.out.println("guttmanTree duration: " + durationFloat + " µs");
+		
+
+		System.out.println("number of searches: " + numberOfSearches2);
+		durationFloat = statTimeToFind(linearTree, posX2, posY2);
+		System.out.println("linearTree duration: " + durationFloat + " µs");
+
+		durationFloat = statTimeToFind(quadraticTree, posX2, posY2);
+		System.out.println("quadraticTree duration: " + durationFloat + " µs");
+
+
+		durationFloat = statTimeToFind(guttmanTree, posX2, posY2);
+		System.out.println("guttmanTree duration: " + durationFloat + " µs");
 		/*
 		// Print the trees
 		System.out.println("Linear R-Tree:");
