@@ -130,7 +130,6 @@ public abstract class AbstractRTree {
 			AbstractNode temp = queue.poll();
 			if (temp.isLeaf()) {
 				if (((Leaf)temp).getDataPolygon().contains(p)){
-					System.out.println(temp);
 					return ((Leaf)temp).getData();
 				} else { continue; }
 			}

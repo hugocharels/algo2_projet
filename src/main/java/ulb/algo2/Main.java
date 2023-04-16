@@ -1,6 +1,7 @@
 package ulb.algo2;
 
 import java.io.File;
+import java.util.Random;
 
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
@@ -29,7 +30,8 @@ public class Main {
 		// store.dispose();
 
 
-		for ( int N : new int[]{ 10, 50, 100, 200, 500, 1000}) {
+		//for ( int N : new int[]{ 10, 50, 100, 200, 500, 1000}) {
+		for ( int N : new int[]{ 500, 1000, 2000, 5000, 10000 }) {
 
 			System.out.println("++++++++++++++++++++++++++++++++++++");
 
@@ -59,8 +61,11 @@ public class Main {
 
 			final int POINTS = 5000;
 			final Point[] points = new Point[POINTS];
+			Random random = new Random();
+			final double min = 20000;
+			final double max = 300000;
 			for (int i = 0; i < POINTS; i++) {
-				points[i] = new GeometryBuilder().point(Math.random() * 100, Math.random() * 100);
+				points[i] = new GeometryBuilder().point(min + random.nextDouble() * (max - min), min + random.nextDouble() * (max - min));
 			}
 
 			System.out.println("---------- Trees research ----------");

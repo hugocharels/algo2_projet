@@ -89,7 +89,7 @@ public class SinglePoint {
 		//Point p = gb.point(151515.33, 167600.79); // maison de kevin (future)
 	    //Point p = gb.point(150024, 167125);
         //Point p = gb.point(r.nextInt((int) global_bounds.getMinX(), (int) global_bounds.getMaxX()),
-        //				r.nextInt((int) global_bounds.getMinY(), (int) global_bounds.getMaxY()));
+        //a				r.nextInt((int) global_bounds.getMinY(), (int) global_bounds.getMaxY()));
 
 	    // le pays ciblé par le point
         SimpleFeature target=null;
