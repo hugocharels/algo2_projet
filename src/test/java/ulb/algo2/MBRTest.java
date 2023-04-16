@@ -2,6 +2,7 @@ package ulb.algo2;
 
 
 import org.junit.jupiter.api.Test;
+import ulb.algo2.node.MBR;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

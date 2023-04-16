@@ -7,16 +7,13 @@ import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Polygon;
 import org.opengis.feature.simple.SimpleFeature;
 
-import ulb.algo2.MBR;
-import ulb.algo2.node.Leaf;
-import ulb.algo2.node.LeafData;
+import ulb.algo2.node.MBR;
 import ulb.algo2.node.Node;
 
 
-public class RectangleTreeBuilder {
+public class RTreeBuilder {
 
-	public static long buildTree(AbstractRectangleTree tree, SimpleFeatureCollection features) {
-		long startTime = System.currentTimeMillis();
+	public static void buildTree(AbstractRTree tree, SimpleFeatureCollection features) {
 		ReferencedEnvelope bounds = features.getBounds();
 		Node root = new Node(null, new MBR(bounds.getMinX(), bounds.getMaxX(), bounds.getMinY(), bounds.getMaxY()));
 		tree.setRoot(root);
@@ -29,9 +26,6 @@ public class RectangleTreeBuilder {
 				}
 			}
 		}
-		long endTime = System.currentTimeMillis();
-		long duration = (endTime - startTime);
-		return duration;
 	}
 
 }

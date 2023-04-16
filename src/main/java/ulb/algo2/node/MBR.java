@@ -1,4 +1,4 @@
-package ulb.algo2;
+package ulb.algo2.node;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Point;

@@ -1,47 +1,23 @@
 package ulb.algo2;
 
-import java.awt.*;
 import java.io.File;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Vector;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.geotools.data.collection.ListFeatureCollection;
-import org.geotools.feature.simple.SimpleFeatureBuilder;
-import org.geotools.map.FeatureLayer;
-import org.geotools.map.Layer;
-import org.geotools.map.MapContent;
-import org.geotools.referencing.operation.projection.AzimuthalEquidistant.Abstract;
-import org.geotools.styling.SLD;
-import org.geotools.styling.Style;
+import org.geotools.geometry.jts.GeometryBuilder;
+import org.locationtech.jts.geom.Point;
 
-import org.geotools.swing.JMapFrame;
-import ulb.algo2.node.LeafData;
-
-import ulb.algo2.rtrees.LinearRectangleTree;
-import ulb.algo2.rtrees.QuadraticRectangleTree;
-import ulb.algo2.rtrees.RectangleTreeBuilder;
-import ulb.algo2.rtrees.AbstractRectangleTree;
-import ulb.algo2.rtrees.GuttmanTree;
+import ulb.algo2.rtrees.*;
+import ulb.algo2.rtrees.AbstractRTree;
 
 
 public class Main {
 
-	public long statTimeToBuildTree(AbstractRectangleTree tree, SimpleFeatureCollection features) {
-		long startTime = System.currentTimeMillis();
-		RectangleTreeBuilder.buildTree(tree, features);
-		long endTime = System.currentTimeMillis();
-		long duration = (endTime - startTime);
-		return duration;
-		// System.out.println("Tree built in " + duration + " ms");
-	}
-	
-	public long timeToFindLeaf(AbstractRectangleTree tree, double x, double y) {
+
+
+	public long timeToFindLeaf(AbstractRTree tree, double x, double y) {
 		long startTime = System.currentTimeMillis();
 		tree.find(x, y);
 		long endTime = System.currentTimeMillis();
@@ -50,8 +26,8 @@ public class Main {
 		// System.out.println("Leaf found in " + duration + " ms");
 	}
 
-	// public static long statTimeToFind(AbstractRectangleTree tree, int numberOfSearches) {
-	public static float statTimeToFind(AbstractRectangleTree tree, double[] posX, double[] posY) {
+	// public static long statTimeToFind(AbstractRTree tree, int numberOfSearches) {
+	public static float statTimeToFind(AbstractRTree tree, double[] posX, double[] posY) {
 	    long totalDuration = 0;
 	    long startTime;
 	    startTime = System.nanoTime();
@@ -72,7 +48,7 @@ public class Main {
 	    return durationFloat;
     }
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Throwable {
 
 		// Load the map
 		String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
@@ -84,89 +60,54 @@ public class Main {
 		SimpleFeatureCollection allFeatures = featureSource.getFeatures();
 		// store.dispose();
 
-		int numberOfSearches = 100000;
-		double posX[] = new double[numberOfSearches];
-		double posY[] = new double[numberOfSearches];
-		
-		for(int i=0; i<numberOfSearches; i++) {
-			posX[i] = (double)(Math.random() * 100000);
-			posY[i] = (double)(Math.random() * 100000);
-		}
 
-		int numberOfSearches2 = 10;
-		double posX2[] = new double[numberOfSearches];
-		double posY2[] = new double[numberOfSearches];
-		
-		for(int i=0; i<numberOfSearches; i++) {
-			posX2[i] = (double)(Math.random() * 100000);
-			posY2[i] = (double)(Math.random() * 100000);
-		}
-
-		System.out.println("Building R-Trees...");
 		// Build R-Trees
-		final int N = 200;
-		long duration, startTime, endTime;
-		float durationFloat;
-		System.out.println("N = " + N);
 
-		System.out.println("Building linear R-Tree...");
-		LinearRectangleTree linearTree = new LinearRectangleTree (N);
-		duration = RectangleTreeBuilder.buildTree(linearTree, allFeatures);
-		System.out.println("Linear R-Tree built in " + duration + " ms");
-		
-		System.out.println("Building quadratic R-Tree...");
-		QuadraticRectangleTree quadraticTree = new QuadraticRectangleTree (N);
-		duration = RectangleTreeBuilder.buildTree(quadraticTree, allFeatures);
-		System.out.println("Quadratic R-Tree built in " + duration + " ms");
+		final int N = 1000;
+		System.out.println("With a N = " + N);
 
-		System.out.println("Building Guttman R-Tree...");
-		GuttmanTree guttmanTree = new GuttmanTree (N);
-		duration = RectangleTreeBuilder.buildTree(guttmanTree, allFeatures);
-		System.out.println("Guttman R-Tree built in " + duration + " ms");
-		System.out.println("Done.");
-
-
-		// System.out.println("Searching for a leaf...");
-		// System.out.println("Linear R-Tree:");
-		// startTime = System.currentTimeMillis();
-		// linearTree.find(147306.96, 166818.79);
-		// duration = (System.currentTimeMillis() - startTime);
-		// System.out.println("Linear R-Tree found the leaf in " + duration + " ms");
-		// System.out.println("Quadratic R-Tree:");
-		// startTime = System.currentTimeMillis();
-		// quadraticTree.find(147306.96, 166818.79);
-		// duration = (System.currentTimeMillis() - startTime);
-		// System.out.println("Quadratic R-Tree found the leaf in " + duration + " ms");
-		// System.out.println("Guttman R-Tree:");
-		// startTime = System.currentTimeMillis();
-		// guttmanTree.find(147306.96, 166818.79);
-		// duration = (System.currentTimeMillis() - startTime);
-		// System.out.println("Guttman R-Tree found the leaf in " + duration + " ms");
-		// System.out.println("Done.");
-
-		System.out.println("mean time to find a leaf in a R-Tree of size " + N );
-		System.out.println("number of searches: " + numberOfSearches);
-		durationFloat = statTimeToFind(linearTree, posX, posY);
-		System.out.println("linearTree duration: " + durationFloat + " µs");
-
-		durationFloat = statTimeToFind(quadraticTree, posX, posY);
-		System.out.println("quadraticTree duration: " + durationFloat + " µs");
+		QuadraticRTree quadraticRTree = new QuadraticRTree(N);
+		LinearRTree linearRTree = new LinearRTree(N);
+		SuspiciousRTree suspiciousRTree = new SuspiciousRTree(N);
+		System.out.println("---------- Trees building ----------");
+		Execution.start("Quadratic R-Tree", "building");
+		RTreeBuilder.buildTree(quadraticRTree, allFeatures);
+		Execution.end();
+		System.out.println("------------------------------------");
+		Execution.start("Linear R-Tree", "building");
+		RTreeBuilder.buildTree(linearRTree, allFeatures);
+		Execution.end();
+		System.out.println("------------------------------------");
+		Execution.start("Suspicious R-Tree", "building");
+		RTreeBuilder.buildTree(suspiciousRTree, allFeatures);
+		Execution.end();
+		System.out.println("------------------------------------");
 
 
-		durationFloat = statTimeToFind(guttmanTree, posX, posY);
-		System.out.println("guttmanTree duration: " + durationFloat + " µs");
-		
+		// Trees research
 
-		System.out.println("number of searches: " + numberOfSearches2);
-		durationFloat = statTimeToFind(linearTree, posX2, posY2);
-		System.out.println("linearTree duration: " + durationFloat + " µs");
+		final int POINTS = 1000;
+		final Point[] points = new Point[POINTS];
+		for (int i=0; i<POINTS; i++) {
+			points[i] = new GeometryBuilder().point(Math.random() * 100, Math.random() * 100);
+		}
 
-		durationFloat = statTimeToFind(quadraticTree, posX2, posY2);
-		System.out.println("quadraticTree duration: " + durationFloat + " µs");
+		System.out.println("---------- Trees research ----------");
+		Execution.start("Quadratic R-Tree", "research");
+		for (int i=0; i<POINTS; i++) { quadraticRTree.find(points[i]); }
+		Execution.end();
+		System.out.println("------------------------------------");
+		Execution.start("Linear R-Tree", "research");
+		for (int i=0; i<POINTS; i++) { linearRTree.find(points[i]); }
+		Execution.end();
+		System.out.println("------------------------------------");
+		Execution.start("Suspicious R-Tree", "research");
+		for (int i=0; i<POINTS; i++) { suspiciousRTree.find(points[i]); }
+		Execution.end();
+		System.out.println("------------------------------------");
 
 
-		durationFloat = statTimeToFind(guttmanTree, posX2, posY2);
-		System.out.println("guttmanTree duration: " + durationFloat + " µs");
+
 		/*
 		// Print the trees
 		System.out.println("Linear R-Tree:");

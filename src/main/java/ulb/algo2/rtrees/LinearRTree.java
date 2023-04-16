@@ -1,6 +1,6 @@
 package ulb.algo2.rtrees;
 
-// import ulb.algo2.MBR;
+// import ulb.algo2.node.MBR;
 import ulb.algo2.node.AbstractNode;
 import ulb.algo2.node.Node;
 
@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Comparator;
 
 
-public class GuttmanTree extends AbstractRectangleTree {
+public class LinearRTree extends AbstractRTree {
 
 	// Constructor
-	public GuttmanTree(int N) { super(N); }
+	public LinearRTree(int N) { super(N); }
 
 	@Override
 	protected AbstractNodePair pickSeeds(Node node) {
@@ -29,9 +29,8 @@ public class GuttmanTree extends AbstractRectangleTree {
 
 		if (smallDistX/bigDistX > smallDistY/bigDistY) 
 			return new AbstractNodePair(nodeMinOfMaxX, nodeMaxOfMinX);
-		 else 
+		else
 			return new AbstractNodePair(nodeMinOfMaxY, nodeMaxOfMinY);
-		
 
 	}
 }

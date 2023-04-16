@@ -5,10 +5,10 @@ import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.junit.jupiter.api.Test;
-import ulb.algo2.rtrees.LinearRectangleTree;
-import ulb.algo2.rtrees.QuadraticRectangleTree;
-import ulb.algo2.rtrees.RectangleTreeBuilder;
-import ulb.algo2.rtrees.GuttmanTree;
+import ulb.algo2.rtrees.LinearRTree;
+import ulb.algo2.rtrees.SuspiciousRTree;
+import ulb.algo2.rtrees.QuadraticRTree;
+import ulb.algo2.rtrees.RTreeBuilder;
 
 import java.io.File;
 
@@ -21,9 +21,9 @@ public class RTreeTest {
 	public void find() throws Exception {
 
 		final int N = 20;
-		LinearRectangleTree LTree = new LinearRectangleTree(N);
-		QuadraticRectangleTree QTree = new QuadraticRectangleTree(N);
-		GuttmanTree GTree = new GuttmanTree(N);
+		SuspiciousRTree LTree = new SuspiciousRTree(N);
+		QuadraticRTree QTree = new QuadraticRTree(N);
+		LinearRTree GTree = new LinearRTree(N);
 		String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
 
 		File file = new File(filename);
@@ -35,9 +35,9 @@ public class RTreeTest {
 		store.dispose();
 
 
-		RectangleTreeBuilder.buildTree(LTree, allFeatures);
-		RectangleTreeBuilder.buildTree(QTree, allFeatures);
-		RectangleTreeBuilder.buildTree(GTree, allFeatures);	
+		RTreeBuilder.buildTree(LTree, allFeatures);
+		RTreeBuilder.buildTree(QTree, allFeatures);
+		RTreeBuilder.buildTree(GTree, allFeatures);
 
 		// String res =" Leaf : NEPTUNE (AVENUE) I";
 		assertTrue(LTree.find(147306.96, 166818.79) != null);

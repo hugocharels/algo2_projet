@@ -1,8 +1,6 @@
 package ulb.algo2.node;
 
 import org.locationtech.jts.geom.Polygon;
-import ulb.algo2.MBR;
-import ulb.algo2.node.LeafData;
 
 
 public class Leaf extends AbstractNode {

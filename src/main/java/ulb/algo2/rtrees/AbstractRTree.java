@@ -8,15 +8,14 @@ import java.util.Queue;
 import java.util.LinkedList;
 import java.util.function.BiConsumer;
 
-import ulb.algo2.MBR;
+import ulb.algo2.node.MBR;
 import ulb.algo2.node.*;
 
 
-public abstract class AbstractRectangleTree {
+public abstract class AbstractRTree {
 
 	protected Node root;
 	protected final int N;
-
 
 	protected static class AbstractNodePair {
 		public AbstractNode n1;
@@ -30,7 +29,7 @@ public abstract class AbstractRectangleTree {
 	}
 
 	// Constructor
-	public AbstractRectangleTree(int N) {
+	public AbstractRTree(int N) {
 		this.N = N;
 	}
 
@@ -72,6 +71,7 @@ public abstract class AbstractRectangleTree {
 		node.setMBR(seeds.n1.getMBR());
 		Node newNode = new Node(node.getFather(), new MBR(seeds.n2.getMBR()));
 		this.pickNext(node, newNode, children);
+		// If need to create a new root
 		if (node.getFather() == null) {
 			root = new Node(null, new MBR(node.getMBR()));
 			root.addChild(node);
@@ -118,27 +118,9 @@ public abstract class AbstractRectangleTree {
 
 
 	// Search
-
 	public LeafData find(double x, double y) {
 		return find(new GeometryBuilder().point(x, y));
 	}
-
-	/*
-	public boolean find(Point p) {
-		AbstractNode node = root;
-		while (!node.isLeaf()) {
-			boolean found = false;
-			for (AbstractNode n : ((Node) node).getChildren()) {
-				if (n.getMBR().contains(p)) {
-					node = n;
-					found = true;
-					break;
-				}
-			} if (!found) { return false; }
-		}
-		return node.getMBR().contains(p);
-	}
-	*/
 
 	public LeafData find(Point p) {
 		Queue<AbstractNode> queue = new LinkedList<AbstractNode>();
@@ -156,8 +138,6 @@ public abstract class AbstractRectangleTree {
 		}
 		return null;
 	}
-
-
 
 
 	// Display

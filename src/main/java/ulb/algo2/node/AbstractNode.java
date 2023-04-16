@@ -1,7 +1,5 @@
 package ulb.algo2.node;
 
-import ulb.algo2.MBR;
-
 public abstract class AbstractNode {
 
 	private MBR mbr;

@@ -1,7 +1,5 @@
 package ulb.algo2.node;
 
-import ulb.algo2.MBR;
-
 import java.util.List;
 
 

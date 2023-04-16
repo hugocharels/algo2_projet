@@ -1,18 +1,16 @@
 package ulb.algo2.rtrees;
 
-import ulb.algo2.MBR;
 import ulb.algo2.node.AbstractNode;
 import ulb.algo2.node.Node;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
 
-public class LinearRectangleTree extends AbstractRectangleTree {
+public class SuspiciousRTree extends AbstractRTree {
 
 	// Constructor
-	public LinearRectangleTree(int N) { super(N); }
+	public SuspiciousRTree(int N) { super(N); }
 
 	@Override
 	protected AbstractNodePair pickSeeds(Node node) {
