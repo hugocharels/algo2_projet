@@ -16,38 +16,6 @@ import ulb.algo2.rtrees.AbstractRTree;
 public class Main {
 
 
-
-	public long timeToFindLeaf(AbstractRTree tree, double x, double y) {
-		long startTime = System.currentTimeMillis();
-		tree.find(x, y);
-		long endTime = System.currentTimeMillis();
-		long duration = (endTime - startTime);
-		return duration;
-		// System.out.println("Leaf found in " + duration + " ms");
-	}
-
-	// public static long statTimeToFind(AbstractRTree tree, int numberOfSearches) {
-	public static float statTimeToFind(AbstractRTree tree, double[] posX, double[] posY) {
-	    long totalDuration = 0;
-	    long startTime;
-	    startTime = System.nanoTime();
-	    // startTime = System.currentTimeMillis();
-	    for(int i=0; i<posX.length; i++) {
-		tree.find(posX[i], posY[i]);
-	    }
-		// totalDuration += (System.currentTimeMillis() - startTime);
-		totalDuration += (System.nanoTime() - startTime);
-	    long meanDuration = totalDuration / posX.length;
-	    long duration = meanDuration / 1000;
-	    long dec = meanDuration - duration * 1000;
-	    float durationFloat = (float)duration + (float)dec / 1000;
-	    // float durationFloat = (float)duration;
-	    // float durationFloat = (float)meanDuration/1000 + (float)(meanDuration-(meanDurat  io n/)) / 1000;
-	    // System.out.println("Leaf found in " + durationFloat + " ms");
-	    // long duration = totalDuration;
-	    return durationFloat;
-    }
-
 	public static void main(String[] args) throws Throwable {
 
 		// Load the map
@@ -61,51 +29,61 @@ public class Main {
 		// store.dispose();
 
 
-		// Build R-Trees
+		for ( int N : new int[]{ 10, 50, 100, 200, 500, 1000}) {
 
-		final int N = 1000;
-		System.out.println("With a N = " + N);
+			System.out.println("++++++++++++++++++++++++++++++++++++");
 
-		QuadraticRTree quadraticRTree = new QuadraticRTree(N);
-		LinearRTree linearRTree = new LinearRTree(N);
-		SuspiciousRTree suspiciousRTree = new SuspiciousRTree(N);
-		System.out.println("---------- Trees building ----------");
-		Execution.start("Quadratic R-Tree", "building");
-		RTreeBuilder.buildTree(quadraticRTree, allFeatures);
-		Execution.end();
-		System.out.println("------------------------------------");
-		Execution.start("Linear R-Tree", "building");
-		RTreeBuilder.buildTree(linearRTree, allFeatures);
-		Execution.end();
-		System.out.println("------------------------------------");
-		Execution.start("Suspicious R-Tree", "building");
-		RTreeBuilder.buildTree(suspiciousRTree, allFeatures);
-		Execution.end();
-		System.out.println("------------------------------------");
+			// Build R-Trees
+
+			System.out.println("With a N = " + N);
+
+			QuadraticRTree quadraticRTree = new QuadraticRTree(N);
+			LinearRTree linearRTree = new LinearRTree(N);
+			SuspiciousRTree suspiciousRTree = new SuspiciousRTree(N);
+			System.out.println("---------- Trees building ----------");
+			Execution.start("Quadratic R-Tree", "building");
+			RTreeBuilder.buildTree(quadraticRTree, allFeatures);
+			Execution.end();
+			System.out.println("------------------------------------");
+			Execution.start("Linear R-Tree", "building");
+			RTreeBuilder.buildTree(linearRTree, allFeatures);
+			Execution.end();
+			System.out.println("------------------------------------");
+			Execution.start("Suspicious R-Tree", "building");
+			RTreeBuilder.buildTree(suspiciousRTree, allFeatures);
+			Execution.end();
+			System.out.println("------------------------------------");
 
 
-		// Trees research
+			// Trees research
 
-		final int POINTS = 1000;
-		final Point[] points = new Point[POINTS];
-		for (int i=0; i<POINTS; i++) {
-			points[i] = new GeometryBuilder().point(Math.random() * 100, Math.random() * 100);
+			final int POINTS = 5000;
+			final Point[] points = new Point[POINTS];
+			for (int i = 0; i < POINTS; i++) {
+				points[i] = new GeometryBuilder().point(Math.random() * 100, Math.random() * 100);
+			}
+
+			System.out.println("---------- Trees research ----------");
+			Execution.start("Quadratic R-Tree", "research");
+			for (int i = 0; i < POINTS; i++) {
+				quadraticRTree.find(points[i]);
+			}
+			Execution.end();
+			System.out.println("------------------------------------");
+			Execution.start("Linear R-Tree", "research");
+			for (int i = 0; i < POINTS; i++) {
+				linearRTree.find(points[i]);
+			}
+			Execution.end();
+			System.out.println("------------------------------------");
+			Execution.start("Suspicious R-Tree", "research");
+			for (int i = 0; i < POINTS; i++) {
+				suspiciousRTree.find(points[i]);
+			}
+			Execution.end();
+			System.out.println("------------------------------------");
+
 		}
-
-		System.out.println("---------- Trees research ----------");
-		Execution.start("Quadratic R-Tree", "research");
-		for (int i=0; i<POINTS; i++) { quadraticRTree.find(points[i]); }
-		Execution.end();
-		System.out.println("------------------------------------");
-		Execution.start("Linear R-Tree", "research");
-		for (int i=0; i<POINTS; i++) { linearRTree.find(points[i]); }
-		Execution.end();
-		System.out.println("------------------------------------");
-		Execution.start("Suspicious R-Tree", "research");
-		for (int i=0; i<POINTS; i++) { suspiciousRTree.find(points[i]); }
-		Execution.end();
-		System.out.println("------------------------------------");
-
 
 
 		/*
