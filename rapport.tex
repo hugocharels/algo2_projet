@@ -55,7 +55,41 @@ Les résultats obtenus nous permettront de déterminer la meilleure variante en 
 de formuler des recommandations pour d'éventuelles améliorations.
 
 \section {Structure}
-ici on va ecrire la structure
+
+Dans cette section, nous allons explorer la structure d'un R-Tree, une arborescence utilisée pour organiser 
+efficacement les données géospatiales et résoudre le problème du "Point in Polygon" (PIP). L'objectif est de 
+comprendre comment cette structure hiérarchique permet de regrouper les MBR (minimum bounding rectangles) de 
+manière optimale.
+
+Un R-Tree est une structure de données arborescente utilisée pour l'indexation spatiale des objets géométriques. 
+Il est conçu pour stocker et organiser efficacement des données multidimensionnelles, telles que des polygones, 
+des points ou des rectangles.
+
+L'idée fondamentale d'un R-Tree est de regrouper les MBR de manière hiérarchique. 
+Chaque nœud de l'arbre représente un MBR, qui peut être un polygone ou un rectangle englobant un groupe de 
+MBR plus petits.
+\begin{itemize}
+
+    \item Nœuds internes : Les nœuds internes de l'arbre contiennent des MBR qui englobent plusieurs autres MBR. 
+	Ils servent de guides pour naviguer dans la structure et réduire la recherche de MBR pertinents lors de la 
+	résolution du problème du PIP.
+
+    \item Feuilles : Les nœuds feuilles de l'arbre contiennent les MBR individuels et sont généralement associés à 
+	des objets géométriques spécifiques. Ils sont utilisés pour effectuer les tests d'inclusion du point lors de 
+	la résolution du PIP.
+\end{itemize}
+
+L'algorithme R-Tree utilise des critères spécifiques pour regrouper les MBR de manière optimale. 
+Ces critères visent à maximiser la compacité des groupes de MBR et minimiser leur superposition avec d'autres groupes.
+
+\begin{itemize}
+    \item Critère de regroupement spatial : Les MBR ayant une proximité spatiale élevée sont regroupés ensemble pour réduire la recherche dans les parties de l'arbre non pertinentes pour le point en cours d'évaluation.
+
+    \item Critère de compacité : Lorsque plusieurs MBR sont candidats pour un regroupement, celui qui crée le MBR englobant le plus compact est préféré. Cela garantit une meilleure utilisation de l'espace de stockage et une réduction des opérations de recherche.
+
+\end{itemize}
+Nous détaillerons la recherche d'un point dans un R-Tree dans la section \ref{recherche}.
+
 \section {Création}
 ici on va ecrire la creation
 \subsection {Split quadratique}
@@ -76,7 +110,7 @@ ici on va ecrire le pick seed
 \subsubsection {Pick Next}
 ici on va ecrire le pick next
 
-\section {Recherche}
+\section {Recherche}\label{recherche}
 ici on va ecrire la recherche
 
 \section {Expériences sur donnees réelles}
