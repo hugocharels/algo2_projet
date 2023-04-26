@@ -13,7 +13,46 @@
 \tableofcontents
 \newpage
 \section {Introduction}
-ici in va ecrire l'introduction
+
+
+% Les polygones jouent un rôle essentiel dans de nombreuses applications, 
+% qu'il s'agisse de représenter des régions administratives sur une carte, des informations géologiques, 
+% des zones dans des dessins vectoriels ou même des imageries médicales. Lors de la manipulation de telles données, 
+% une question courante se pose : à quel polygone appartient un point donné, tel qu'un clic de souris ou 
+% la position d'un capteur GPS ? Cette question est résolue par le problème du "Point in Polygon" (PIP), 
+% dont l'algorithme a été connu depuis 1962.
+% \\
+Dans de nombreuses applications, la manipulation de polygones est essentielle. Ces polygones peuvent représenter 
+des régions administratives, des informations géologiques, des zones de dessins vectoriels ou encore des 
+images médicales. Lorsqu'il s'agit de déterminer à quel polygone appartient un point donné, une question se pose : 
+comment résoudre efficacement le problème du "Point in Polygon" (PIP) ?
+
+% \\
+L'algorithme PIP, connu depuis 1962, consiste à compter le nombre de fois qu'une demi-droite partant du point 
+traverse une arête du polygone. Si ce nombre est pair, le point est à l'extérieur du polygone, sinon, 
+il est contenu à l'intérieur. Cependant, si l'on a des milliers de polygones complexes à tester avec un 
+grand nombre de points, une méthode naïve devient inefficace.
+
+Une première optimisation consiste à utiliser l'enveloppe ou "minimum bounding rectangle" (MBR), 
+qui est le plus petit rectangle horizontal englobant totalement le polygone. Avant d'appliquer l'algorithme PIP, 
+on vérifie d'abord l'inclusion du point dans le MBR, ce qui permet de réduire le nombre d'appels à PIP.
+
+Cependant, lorsque le nombre de polygones et de MBR est élevé, une approche hiérarchique basée sur l'algorithme R-Tree 
+devient pertinente. En regroupant les MBR de manière optimale, on peut éviter de considérer tous les MBR pour 
+chaque point à tester.
+
+Dans ce projet, nous allons implémenter et évaluer deux variantes de l'algorithme R-Tree (quadratique et linéaire) 
+pour résoudre efficacement le problème du PIP. Nous testerons ces variantes avec différents paramètres pour 
+évaluer leurs performances.
+
+Le rapport détaillera la méthodologie utilisée, les résultats obtenus et une analyse approfondie des performances 
+des variantes de l'algorithme R-Tree. Nous discuterons également des défis rencontrés et des perspectives pour de 
+futures recherches.
+
+
+En conclusion, ce projet vise à résoudre efficacement le problème du PIP en utilisant l'algorithme R-Tree. 
+Les résultats obtenus nous permettront de déterminer la meilleure variante en fonction des paramètres et 
+de formuler des recommandations pour d'éventuelles améliorations.
 
 \section {Structure}
 ici on va ecrire la structure
