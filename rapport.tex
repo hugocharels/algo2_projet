@@ -1,5 +1,13 @@
 \documentclass {article}
 
+% \usepackage{listings}
+
+\usepackage{minted, xcolor}
+% \usepackage{minted}
+\definecolor{bg}{HTML}{282828}
+
+
+
 \begin {document}
 % \begintitlepage
 % \centering
@@ -50,68 +58,202 @@ des variantes de l'algorithme R-Tree. Nous discuterons également des défis ren
 futures recherches.
 
 
-En conclusion, ce projet vise à résoudre efficacement le problème du PIP en utilisant l'algorithme R-Tree. 
-Les résultats obtenus nous permettront de déterminer la meilleure variante en fonction des paramètres et 
-de formuler des recommandations pour d'éventuelles améliorations.
+En conclusion, ce projet vise à résoudre efficacement le problème du PIP en utilisant l'algorithme 
+R-Tree. 
+Les résultats obtenus nous permettront de déterminer la meilleure variante en fonction des 
+paramètres et de formuler des recommandations pour d'éventuelles améliorations.
 
 \section {Structure}
 
-Dans cette section, nous allons explorer la structure d'un R-Tree, une arborescence utilisée pour organiser 
-efficacement les données géospatiales et résoudre le problème du "Point in Polygon" (PIP). L'objectif est de 
-comprendre comment cette structure hiérarchique permet de regrouper les MBR (minimum bounding rectangles) de 
-manière optimale.
+Dans cette section, nous allons explorer la structure d'un R-Tree, une arborescence utilisée 
+pour organiser efficacement les données géospatiales et résoudre le problème du 
+"Point in Polygon" (PIP). L'objectif est de comprendre comment cette structure hiérarchique 
+permet de regrouper les MBR (minimum bounding rectangles) de manière optimale.
 
-Un R-Tree est une structure de données arborescente utilisée pour l'indexation spatiale des objets géométriques. 
-Il est conçu pour stocker et organiser efficacement des données multidimensionnelles, telles que des polygones, 
-des points ou des rectangles.
+Un R-Tree est une structure de données arborescente utilisée pour l'indexation spatiale des 
+objets géométriques. Il est conçu pour stocker et organiser efficacement des données 
+multidimensionnelles, telles que des polygones, des points ou des rectangles.
 
 L'idée fondamentale d'un R-Tree est de regrouper les MBR de manière hiérarchique. 
-Chaque nœud de l'arbre représente un MBR, qui peut être un polygone ou un rectangle englobant un groupe de 
-MBR plus petits.
+Chaque nœud de l'arbre représente un MBR, qui peut être un polygone ou un rectangle englobant 
+un groupe de MBR plus petits.
 \begin{itemize}
 
-    \item Nœuds internes : Les nœuds internes de l'arbre contiennent des MBR qui englobent plusieurs autres MBR. 
-	Ils servent de guides pour naviguer dans la structure et réduire la recherche de MBR pertinents lors de la 
-	résolution du problème du PIP.
+    \item Nœuds internes : Les nœuds internes de l'arbre contiennent des MBR qui englobent 
+	plusieurs autres MBR. 
+	Ils servent de guides pour naviguer dans la structure et réduire la recherche de MBR 
+	pertinents lors de la résolution du problème du PIP.
 
-    \item Feuilles : Les nœuds feuilles de l'arbre contiennent les MBR individuels et sont généralement associés à 
-	des objets géométriques spécifiques. Ils sont utilisés pour effectuer les tests d'inclusion du point lors de 
-	la résolution du PIP.
+    \item Feuilles : Les nœuds feuilles de l'arbre contiennent les MBR individuels et sont 
+	généralement associés à des objets géométriques spécifiques. 
+	Ils sont utilisés pour effectuer les tests d'inclusion du point lors de	la résolution 
+	du PIP.
 \end{itemize}
 
 L'algorithme R-Tree utilise des critères spécifiques pour regrouper les MBR de manière optimale. 
-Ces critères visent à maximiser la compacité des groupes de MBR et minimiser leur superposition avec d'autres groupes.
+Ces critères visent à maximiser la compacité des groupes de MBR et minimiser leur superposition 
+avec d'autres groupes.
 
 \begin{itemize}
-    \item Critère de regroupement spatial : Les MBR ayant une proximité spatiale élevée sont regroupés ensemble pour réduire la recherche dans les parties de l'arbre non pertinentes pour le point en cours d'évaluation.
+    \item Critère de regroupement spatial : Les MBR ayant une proximité spatiale élevée sont 
+	regroupés ensemble pour réduire la recherche dans les parties de l'arbre non pertinentes 
+	pour le point en cours d'évaluation.
 
-    \item Critère de compacité : Lorsque plusieurs MBR sont candidats pour un regroupement, celui qui crée le MBR englobant le plus compact est préféré. Cela garantit une meilleure utilisation de l'espace de stockage et une réduction des opérations de recherche.
+    \item Critère de compacité : Lorsque plusieurs MBR sont candidats pour un regroupement, 
+	celui qui crée le MBR englobant le plus compact est préféré. 
+	Cela garantit une meilleure utilisation de l'espace de stockage et une réduction des 
+	opérations de recherche.
 
 \end{itemize}
 Nous détaillerons la recherche d'un point dans un R-Tree dans la section \ref{recherche}.
 
 \section {Création}
-ici on va ecrire la creation
+
+Dans cette section, nous allons aborder la création d'un R-Tree, en expliquant les étapes de base 
+pour construire cette structure hiérarchique. 
+Nous présenterons également deux algorithmes de construction : 
+le split quadratique et le split linéaire.
+
+La création d'un R-Tree implique de regrouper les MBR de manière hiérarchique. 
+Pour cela, nous commençons avec un ensemble de MBR individuels et suivons un processus 
+de division et de regroupement pour former l'arbre.
+
+L'algorithme de construction de base utilise deux étapes principales : le split et le picknext. 
+Le split consiste à diviser un groupe de MBR en deux groupes plus petits, 
+tandis que le picknext sélectionne le prochain MBR à insérer dans l'arbre.
+
+Il existe deux variantes d'algorithmes de split : le split quadratique et le split linéaire. 
+Explorons-les plus en détail.
+
+
 \subsection {Split quadratique}
-ici on va ecrire le split quadratique
+Le split quadratique est un algorithme de division utilisé dans la construction d'un R-Tree. 
+Il se base sur le concept de compacité des MBR pour choisir les MBR à diviser.
+
+% L'idée du split quadratique est de sélectionner deux MBR initiaux qui englobent le plus grand espace possible. 
+% Pour cela, nous calculons toutes les paires possibles de MBR et choisissons celle qui crée les deux MBR les plus 
+% compacts.
+L'idée du split quadratique est de sélectionner deux MBR initiaux qui sont le plus éloignés possible.
+Pour cela, nous calculons toutes les paires possibles de MBR et choisissons celle qui dont 
+l'aire d'encadrement est la plus grande.
+
+Avantages du split quadratique :
+
+\begin{itemize}
+    \item Il tend à créer une structure plus équilibrée en termes de taille des nœuds et de 
+	compacité des MBR.
+    \item Il est moins susceptible de générer des feuilles surchargés ou des nœuds internes 
+	avec peu de MBR.
+
+\end{itemize}
+Inconvénients du split quadratique :
+
+\begin{itemize}
+    \item Il peut être plus coûteux en termes de temps de calcul, car il nécessite l'évaluation 
+	de toutes les paires de MBR possibles.
+\end{itemize}
 
 \subsubsection {Pick Seed}
-ici on va ecrire le pick seed
+
+
+Dans le contexte du split quadratique, le pickseed est l'algorithme utilisé pour choisir les 
+deux MBR initiaux à diviser.
+
+L'algorithme du pickseed consiste à énumérer toutes les paires possibles de MBR et à sélectionner 
+celle qui a l'aire d'encadrement la plus grande.
+
+L'objectif est de trouver les deux MBR qui englobent l'espace maximal, formant ainsi une base solide 
+pour la construction ultérieure de l'arbre.
+
+% test
+\begin{minted}{java}
+
+protected AbstractNodePair pickSeeds(Node node) {
+    AbstractNodePair nodes = new AbstractNodePair(node.getChild(0), 
+						    node.getChild(1));
+    MBR biggest = nodes.n1.getMBR().getUnion(nodes.n2.getMBR());
+    for (int i = 1; i < node.getChildren().size(); i++) {
+	for (int j = i + 1; j < node.getChildren().size(); j++) {
+	    if (i==j) { continue; }
+	    MBR union = node.getChild(i).getMBR().getUnion(node.getChild(j).getMBR());
+	    if (union.getArea() > biggest.getArea()) {
+		nodes.n1 = node.getChild(i);
+		nodes.n2 = node.getChild(j);
+		biggest = union;
+	    }
+	}
+    }
+    return nodes;
+}
+\end{minted}
+% \end{lstlisting}
+
 
 \subsubsection {Pick Next}
-ici on va ecrire le pick next
+
+Après avoir choisi les deux MBR initiaux, le picknext est utilisé pour sélectionner le prochain MBR 
+à insérer dans l'arbre lors du processus de construction.
+
+L'algorithme du picknext consiste à évaluer l'augmentation d'aire résultant de l'ajout de chaque MBR 
+restant au premier groupe. Le MBR qui entraîne la plus petite augmentation d'aire est choisi 
+comme prochain MBR à insérer.
+
+Ce processus est répété jusqu'à ce que tous les MBR soient attribués à un groupe.
+% \begin{lstlisting}[language=Java, caption=Algorithme du picknext]
+% \begin{minted}[bgcolor=bg]{java}
+
+
+
+
 
 \subsection {Split linéaire}
-ici on va ecrire le split linéaire
+
+Le split linéaire est un autre algorithme de division utilisé dans la construction d'un R-Tree. 
+Il ne prend pas en compte la compacité des MBR lors de la sélection des MBR à diviser.
+mais se base sur la position des MBR. Ce qui permet de réduire le temps de calcul.
+
+Le split linéaire est une autre variante de l'algorithme de division utilisé dans la construction d'
+un R-Tree. 
+Contrairement au split quadratique, il ne prend pas en compte la compacité des MBR lors de la 
+sélection des MBR à diviser mais se base sur la position relative des MBR les uns par rapport 
+aux autres. 
+Ce qui permet de réduire le temps de calcul.
+
+L'idée du split linéaire est de sélectionner deux MBR initiaux qui sont le plus extrêmes possible.
+
+Avantages du split linéaire :
+
+\begin{itemize}
+    \item Il est plus rapide que le split quadratique, car il ne nécessite pas l'évaluation de
+	toutes les paires de MBR possibles.
+    \item Il est plus simple à implémenter.
+
+\end{itemize}
+Inconvénients du split linéaire :
+
+\begin{itemize}
+    \item Il tend à créer une structure moins équilibrée en termes de taille des nœuds et de
+	compacité des MBR.
+    \item Il est plus susceptible de générer des feuilles surchargés ou des nœuds internes
+	avec peu de MBR.
+
+\end{itemize}
 
 \subsubsection {Pick Seed}
-ici on va ecrire le pick seed
+
+Le pickseed (linéaire) est utilisé pour sélectionner les deux MBR initiaux dans le contexte du split linéaire. 
+Il s'agit simplement d'attribuer les deux premiers MBR rencontrés à chaque groupe.
+
+
 
 \subsubsection {Pick Next}
-ici on va ecrire le pick next
+
+Le picknext (linéaire) est utilisé pour sélectionner le prochain MBR à insérer dans l'arbre lors de la construction. 
+Il suffit de choisir le prochain MBR dans l'ordre de leur apparition lors du parcours.
+
+
 
 \section {Recherche}\label{recherche}
-ici on va ecrire la recherche
 
 \section {Expériences sur donnees réelles}
 ici on va ecrire les experiences sur donnees réelles
