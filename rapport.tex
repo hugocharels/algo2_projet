@@ -3,8 +3,7 @@
 % \usepackage{listings}
 
 \usepackage{minted, xcolor, graphicx}
-% \usepackage{minted}
-\definecolor{bg}{HTML}{282828}
+% \definecolor{bg}{HTML}{282828}
 
 
 
@@ -164,7 +163,7 @@ Inconvénients du split quadratique :
 Dans le contexte du split quadratique, le pickseed est l'algorithme utilisé pour choisir les 
 deux MBR initiaux à diviser.
 
-L'algorithme du pickseed consiste à énumérer toutes les paires possibles de MBR et à sélectionner 
+L'algorithme du pickseed (quadratique) consiste à énumérer toutes les paires possibles de MBR et à sélectionner 
 celle qui a l'aire d'encadrement la plus grande.
 
 L'objectif est de trouver les deux MBR qui englobent l'espace maximal, formant ainsi une base solide 
@@ -199,8 +198,8 @@ protected AbstractNodePair pickSeeds(Node node) {
 Après avoir choisi les deux MBR initiaux, le picknext est utilisé pour sélectionner le prochain MBR 
 à insérer dans l'arbre lors du processus de construction.
 
-L'algorithme du picknext consiste à évaluer l'augmentation d'aire résultant de l'ajout de chaque MBR 
-restant au premier groupe. Le MBR qui entraîne la plus petite augmentation d'aire est choisi 
+L'algorithme du picknext (quadratique) consiste à évaluer l'augmentation d'aire résultant de l'ajout de chaque MBR 
+restant. Le MBR qui entraîne la plus petite augmentation d'aire est choisi 
 comme prochain MBR à insérer.
 
 Ce processus est répété jusqu'à ce que tous les MBR soient attribués à un groupe.
@@ -209,19 +208,6 @@ Ce processus est répété jusqu'à ce que tous les MBR soient attribués à un 
 
 
 \begin{minted}{java}
-private void pickNext(Node n1, Node n2, List<AbstractNode> children) {
-    for (AbstractNode child : children) {
-	if (n1.getMBR().getExpansion(child.getMBR()) < 
-		n2.getMBR().getExpansion(child.getMBR())) {
-	    n1.addChild(child);
-	    n1.expandMBR(child.getMBR());
-	} 
-	else {
-	n2.addChild(child);
-	n2.expandMBR(child.getMBR());
-	}
-    }
-}
 
 \end{minted}
 
@@ -263,7 +249,11 @@ Inconvénients du split linéaire :
 \subsubsection {Pick Seed}
 
 Le pickseed (linéaire) est utilisé pour sélectionner les deux MBR initiaux dans le contexte du split linéaire. 
-Il s'agit simplement d'attribuer les deux premiers MBR rencontrés à chaque groupe.
+Il s'agit simplement d'attribuer les deux premiers MBR qui ont leurs positions situées aux extrémités. 
+Pour cela, nous retenons deux paires de MBR, une dont les positions extrêmes concernent l'axe des abscisses et 
+l'autre l'axe des ordonnées.
+La paire choisie est celle dont la noramlisation de la distance est la plus grande.
+
 
 
 \begin{minted}{java}
@@ -315,22 +305,94 @@ private void pickNext(Node n1, Node n2, List<AbstractNode> children) {
 
 \section {Recherche}\label{recherche}
 
-\section {Expériences sur donnees réelles}
-ici on va ecrire les experiences sur donnees réelles
 
-\subsection {Belgique - Secteurs statistiques}
+
+La recherche dans un R-Tree est l'une des fonctionnalités clés de cette structure de données. 
+Elle permet de déterminer à quel nœud ou à quel objet géométrique correspond un point donné. 
+L'algorithme de recherche dans un R-Tree repose sur le principe de parcours de l'arbre.
+
+L'algorithme find, présenté ci-dessous, effectue une recherche d'un point p dans un R-Tree :
+
+
+\begin{minted}{java}
+public LeafData find(Point p) {
+    Queue<AbstractNode> queue = new LinkedList<AbstractNode>();
+    queue.add(root);
+    BiConsumer<Node, Queue<AbstractNode>> addChildrenToQueue = (n, q) -> n.getChildren().stream().filter(child -> child.getMBR().contains(p)).forEach(q::add);
+    while (!queue.isEmpty()) {
+	AbstractNode temp = queue.poll();
+	if (temp.isLeaf()) {
+	    if (((Leaf)temp).getDataPolygon().contains(p)){
+		return (Leaf) temp;
+	    } else { continue; }
+	}
+	addChildrenToQueue.accept((Node) temp, queue);
+    }
+    return null;
+}
+\end{minted}
+
+L'algorithme find utilise une file d'attente (queue) pour effectuer un parcours en largeur de l'arbre. 
+Il commence par ajouter le nœud racine à la file d'attente. Ensuite, il itère tant que la file d'attente 
+n'est pas vide. À chaque itération, il récupère un nœud de la file d'attente et effectue les actions suivantes :
+
+\begin{itemize}
+    \item Si le nœud est une feuille (Leaf), il vérifie si le polygone de données de la feuille contient le point 
+	recherché. Si c'est le cas, il renvoie la feuille. 
+	Sinon, il continue le parcours.
+    \item Si le nœud est un nœud interne (Node), il ajoute ses enfants dont les MBR contiennent le point 
+	recherché à la file d'attente en utilisant la fonction addChildrenToQueue. 
+	Cette fonction filtre les enfants du nœud en ne gardant que ceux dont le MBR (Minimum Bounding Rectangle) 
+	contient le point recherché, puis les ajoute à la file d'attente.
+    \item Si aucune feuille ne correspond au point recherché, la fonction renvoie null.
+\end{itemize}
+
+L'algorithme find garantit que tous les nœuds qui contiennent potentiellement le point sont visités de manière 
+efficace, en évitant de parcourir les nœuds qui ne sont pas pertinents.
+
+Cette fonction de recherche sera mise en œuvre dans le cadre du projet pour effectuer des recherches 
+de points dans les R-Trees construits et évaluer leur performance.
+
+
+
+\section {Expériences sur donnees réelles}
+
+
+Pour évaluer les performances de l'algorithme de recherche dans un R-Tree, 
+nous avons réalisé des expérimentations en utilisant des données réelles. 
+Nous avons utilisé les ensembles de données suivants :
+
+\begin{itemize}
+
+    \item Belgique - Secteur. Voir statistique \ref{belgique}
+    \item France - Communes. Voir \ref{france}
+    \item Monde - Pays. Voir \ref{mondePays}
+    \item Monde - Villes. Voir \ref{mondeVilles}
+\end{itemize}
+
+Nous avons construit des arbres R-Tree à la fois en utilisant l'algorithme de partitionnement quadratique 
+et l'algorithme de partitionnement linéaire.
+
+Ensuite, nous avons effectué des recherches en utilisant un ensemble de 5000 points de recherche différents 
+dans chaque jeu de données afin d'obtenir les résultats correspondants.
+
+Les résultats de ces expérimentations nous permettent de comparer les performances des deux types d'arbres 
+(quadratique et linéaire) en termes de temps de construction et d'exécution des recherches.
+
+
+\subsection {Belgique - Secteurs statistiques}\label{belgique}
 ici on va ecrire les experiences sur les secteurs statistiques
 
-\subsection {France - Communes}
+\subsection {France - Communes}\label{france}
 ici on va ecrire les experiences sur les communes
 
-\subsection {Monde - Pays}
+\subsection {Monde - Pays}\label{mondePays}
 ici on va ecrire les experiences sur les pays
 
-\subsection {Monde - Villes}
+\subsection {Monde - Villes}\label{mondeVilles}
 ici on va ecrire les experiences sur les villes
 
-\subsection {Analyse}
+\subsection {Analyse}\label{analyse}
 ici on va ecrire l'analyse
 
 \section {Conclusion}
