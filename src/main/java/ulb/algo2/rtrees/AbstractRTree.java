@@ -86,22 +86,21 @@ public abstract class AbstractRTree {
 
 	protected AbstractNodePair pickSeeds(Node node) {
 		AbstractNodePair nodes = new AbstractNodePair(node.getChild(0), node.getChild(1));
-		MBR biggest = nodes.n1.getMBR().getUnion(nodes.n2.getMBR());
+		double bestExpansion = 0;
 		for (int i = 1; i < node.getChildren().size(); i++) {
 			for (int j = i + 1; j < node.getChildren().size(); j++) {
-				if (i==j) { continue; }
-				MBR union = node.getChild(i).getMBR().getUnion(node.getChild(j).getMBR());
-				if (union.getArea() > biggest.getArea()) {
+				double expansion = node.getChild(i).getMBR().getExpansion(node.getChild(j).getMBR());
+				if (expansion > bestExpansion) {
 					nodes.n1 = node.getChild(i);
 					nodes.n2 = node.getChild(j);
-					biggest = union;
+					bestExpansion = expansion;
 				}
 			}
 		}
 		return nodes;
 	}
 
-	private void pickNext(Node n1, Node n2, List<AbstractNode> children) {
+	protected void pickNext(Node n1, Node n2, List<AbstractNode> children) {
 		for (AbstractNode child : children) {
 			if (n1.getMBR().getExpansion(child.getMBR()) < n2.getMBR().getExpansion(child.getMBR())) {
 				n1.addChild(child);
@@ -118,11 +117,11 @@ public abstract class AbstractRTree {
 
 
 	// Search
-	public LeafData find(double x, double y) {
+	public Leaf find(double x, double y) {
 		return find(new GeometryBuilder().point(x, y));
 	}
 
-	public LeafData find(Point p) {
+	public Leaf find(Point p) {
 		Queue<AbstractNode> queue = new LinkedList<AbstractNode>();
 		queue.add(root);
 		BiConsumer<Node, Queue<AbstractNode>> addChildrenToQueue = (n, q) -> n.getChildren().stream().filter(child -> child.getMBR().contains(p)).forEach(q::add);
@@ -130,7 +129,7 @@ public abstract class AbstractRTree {
 			AbstractNode temp = queue.poll();
 			if (temp.isLeaf()) {
 				if (((Leaf)temp).getDataPolygon().contains(p)){
-					return ((Leaf)temp).getData();
+					return (Leaf)temp;
 				} else { continue; }
 			}
 			addChildrenToQueue.accept((Node) temp, queue);
