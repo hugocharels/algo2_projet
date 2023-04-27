@@ -2,18 +2,24 @@
 
 % \usepackage{listings}
 
-\usepackage{minted, xcolor}
+\usepackage{minted, xcolor, graphicx}
 % \usepackage{minted}
 \definecolor{bg}{HTML}{282828}
 
 
 
 \begin {document}
+\begin{figure}[t]
+    \centering{\includegraphics[scale=0.5]{logo.png}}
+	\label{fig:logo}
+\end{figure}
 % \begintitlepage
 % \centering
 \author {Hugo Charels 000544051 \and Mickael Kovel 000396950}
 \date {28 Avril 2023}
 \title {Rapport de projet : Rectangle Tree}
+
+% \subtitle "\\includegraphics{logo.png}\\vspace{1cm}"
 \maketitle
 \newpage
 
@@ -21,7 +27,6 @@
 \tableofcontents
 \newpage
 \section {Introduction}
-
 
 % Les polygones jouent un rôle essentiel dans de nombreuses applications, 
 % qu'il s'agisse de représenter des régions administratives sur une carte, des informations géologiques, 
@@ -203,6 +208,22 @@ Ce processus est répété jusqu'à ce que tous les MBR soient attribués à un 
 % \begin{minted}[bgcolor=bg]{java}
 
 
+\begin{minted}{java}
+private void pickNext(Node n1, Node n2, List<AbstractNode> children) {
+    for (AbstractNode child : children) {
+	if (n1.getMBR().getExpansion(child.getMBR()) < 
+		n2.getMBR().getExpansion(child.getMBR())) {
+	    n1.addChild(child);
+	    n1.expandMBR(child.getMBR());
+	} 
+	else {
+	n2.addChild(child);
+	n2.expandMBR(child.getMBR());
+	}
+    }
+}
+
+\end{minted}
 
 
 
@@ -245,6 +266,30 @@ Le pickseed (linéaire) est utilisé pour sélectionner les deux MBR initiaux da
 Il s'agit simplement d'attribuer les deux premiers MBR rencontrés à chaque groupe.
 
 
+\begin{minted}{java}
+protected AbstractNodePair pickSeeds(Node node) {
+    List<AbstractNode> children = new java.util.ArrayList<>(node.getChildren());
+
+    AbstractNode nodeMinOfMaxX = children.stream().min(
+	    Comparator.comparingDouble(n -> n.getMBR().getXMax())).orElse(null);
+    AbstractNode nodeMaxOfMinX = children.stream().max(
+	    Comparator.comparingDouble(n -> n.getMBR().getXMin())).orElse(null);
+    AbstractNode nodeMinOfMaxY = children.stream().min(
+	    Comparator.comparingDouble(n -> n.getMBR().getYMax())).orElse(null);
+    AbstractNode nodeMaxOfMinY = children.stream().max(
+	    Comparator.comparingDouble(n -> n.getMBR().getYMin())).orElse(null);
+
+    double smallDistX = nodeMaxOfMinX.getMBR().getXMax() - nodeMinOfMaxX.getMBR().getXMin();
+    double bigDistX = nodeMaxOfMinX.getMBR().getXMin() - nodeMinOfMaxX.getMBR().getXMax();
+    double smallDistY = nodeMaxOfMinY.getMBR().getYMax() - nodeMinOfMaxY.getMBR().getYMin();
+    double bigDistY = nodeMaxOfMinY.getMBR().getYMin() - nodeMinOfMaxY.getMBR().getYMax();
+    if (smallDistX/bigDistX > smallDistY/bigDistY) 
+	return new AbstractNodePair(nodeMinOfMaxX, nodeMaxOfMinX);
+    else
+	return new AbstractNodePair(nodeMinOfMaxY, nodeMaxOfMinY);
+
+}
+\end{minted}
 
 \subsubsection {Pick Next}
 
@@ -252,6 +297,21 @@ Le picknext (linéaire) est utilisé pour sélectionner le prochain MBR à insé
 Il suffit de choisir le prochain MBR dans l'ordre de leur apparition lors du parcours.
 
 
+\begin{minted}{java}
+private void pickNext(Node n1, Node n2, List<AbstractNode> children) {
+    for (AbstractNode child : children) {
+	if (n1.getMBR().getExpansion(child.getMBR()) < 
+		n2.getMBR().getExpansion(child.getMBR())) {
+	    n1.addChild(child);
+	    n1.expandMBR(child.getMBR());
+	} 
+	else {
+	n2.addChild(child);
+	n2.expandMBR(child.getMBR());
+	}
+    }
+}
+\end{minted}
 
 \section {Recherche}\label{recherche}
 
