@@ -19,8 +19,8 @@ public class Main {
 	public static void main(String[] args) throws Throwable {
 	    String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
 	    // System.out.println("Generating graph");
-	    GraphGenerator linearGraphGenerator = new GraphGenerator();
-	    GraphGenerator quadraticGraphGenerator = new GraphGenerator();
+	    GraphGenerator linearGraphGenerator = new GraphGenerator("Belgique - Secteurs statistique");
+	    GraphGenerator quadraticGraphGenerator = new GraphGenerator("Belgique - Secteurs statistique");
 	    linearGraphGenerator.init(filename, true);
 	    quadraticGraphGenerator.init(filename, false);
 	    System.out.println("Generating graph");

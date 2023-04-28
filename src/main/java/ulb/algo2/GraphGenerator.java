@@ -21,6 +21,7 @@ import org.opengis.filter.temporal.During;
 import ulb.algo2.rtrees.*;
 
 public class GraphGenerator{
+    String title;
     Boolean quadratic;
     AbstractRTree rtree;
     SimpleFeatureCollection allFeatures;
@@ -30,6 +31,11 @@ public class GraphGenerator{
     String filename;
     String nameOfFile;
     JFreeChart lineChart;
+
+    public GraphGenerator(String title){
+	this.title = title;
+    }
+
 
     private void decodeShapefile() throws Throwable{
 	File file = new File(filename);
@@ -47,8 +53,10 @@ public class GraphGenerator{
 	}
 
     private void generateNameOfFile(){
-	if (this.quadratic) this.nameOfFile = "graph_quadratique.png";
-	else this.nameOfFile = "graph_lineaire.png";
+	if (this.quadratic) this.nameOfFile = "graph_quadratique_";
+	else this.nameOfFile = "graph_lineaire_";
+	String[] tmp = this.title.split(" ");
+	this.nameOfFile += (tmp[0] + ".png");
 	// this.nameOfFile = this.nameOfFile + this.filename;
 	}
 
@@ -95,7 +103,8 @@ public class GraphGenerator{
 	    System.out.println("Average time for " + i + " dimensions: " + duration);
 	    dataset.addValue(duration, "Average time", Integer.toString(i));
 	}
-	this.lineChart = ChartFactory.createLineChart("Average time to find a point in a RTree", "Dimensions", "Time (ns)", dataset);
+	// this.lineChart = ChartFactory.createLineChart("Average time to find a point in a RTree", "Dimensions", "Time (ns)", dataset);
+	this.lineChart = ChartFactory.createLineChart(title, "Dimensions", "Time (ns)", dataset);
 	saveGraph();
     }
 }
