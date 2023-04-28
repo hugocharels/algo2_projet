@@ -22,4 +22,4 @@ You need maven to compile and run this project
 
 #### To generate the JavaDoc:
     mvn javadoc:javadoc
-target/site/apidocs/index.html
+open target/site/apidocs/index.html in a web browser
