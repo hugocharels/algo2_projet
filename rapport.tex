@@ -246,11 +246,11 @@ protected void pickNext(Node n1, Node n2, List<AbstractNode> children) {
 \subsection {Split linéaire}
 
 Le split linéaire est un autre algorithme de division utilisé dans la construction d'un R-Tree.
-Il ne prend pas en compte la compacité des MBR lors de la sélection des MBR à diviser.
-mais se base sur la position des MBR. Ce qui permet de réduire le temps de calcul.
+% Il ne prend pas en compte la compacité des MBR lors de la sélection des MBR à diviser.
+% mais se base sur la position des MBR. Ce qui permet de réduire le temps de calcul.
 
-Le split linéaire est une autre variante de l'algorithme de division utilisé dans la construction d'
-un R-Tree.
+% Le split linéaire est une autre variante de l'algorithme de division utilisé dans la construction d'
+% un R-Tree.
 Contrairement au split quadratique, il ne prend pas en compte la compacité des MBR lors de la
 sélection des MBR à diviser mais se base sur la position relative des MBR les uns par rapport
 aux autres.
@@ -333,6 +333,21 @@ private void pickNext(Node n1, Node n2, List<AbstractNode> children) {
 }
 \end{minted}
 
+\subsection {Split suspicieux}
+Nous avons implémenté un algorithme de split suspicieux qui est une variante du split linéaire.
+Il se différencie du split linéaire de l'algorithme de Guttman par le choix des MBR à diviser.
+
+\subsubsection {Pick Seed}
+Le pickseed (suspicious) est utilisé pour sélectionner les deux MBR initiaux dans le contexte du split suspicieux.
+Il s'agit simplement d'attribuer les deux premiers MBR qui ont leurs positions situées aux extrémités.
+Pour cela, nous retenons les quatres MBR dont les positions extrêmes concernent l'axe des abscisses et 
+l'axe des ordonnées.
+Nous appelons à ce moment la fonction pickseed (quadratique).
+Dans ce cadre, la fonction pickseed (quadratique) est linéaire car elle ne prend en compte que les quatres MBR
+\subsubsection {Pick Next}
+
+
+
 \section {Recherche}\label{recherche}
 
 
@@ -404,20 +419,25 @@ Nous avons utilisé les ensembles de données suivants :
 Nous avons construit des arbres R-Tree à la fois en utilisant l'algorithme de partitionnement quadratique
 et l'algorithme de partitionnement linéaire.
 
-Ensuite, nous avons effectué des recherches en utilisant un ensemble de 1000 points de recherche différents
+Ensuite, nous avons effectué des recherches en utilisant un ensemble de 5000 points de recherche différents
 dans chaque jeu de données afin d'obtenir les résultats correspondants.
-Nous effectuons une moyenne des temps de recherche qui est calculée en faisant ces 1000 recherches 5 fois 
-pour chaque jeu de données et chaque algorithme de split.
+% Nous effectuons une moyenne des temps de recherche qui est calculée en faisant ces 1000 recherches 5 fois 
+% pour chaque jeu de données et chaque algorithme de split.
 
 Nous recommençons l'expérience en faisant varier le nombre maximum d'enfants par nœud allant de 2 au nombre
 maximum de polygones par jeu de données par pas de nbPolygones/20.
 
+Nous porterons ces données sur un graphique afin de pouvoir comparer les performances des deux types d'arbres,
+avec en abscisse le nombre maximum de polygones par nœud et en ordonnée le temps de recherche pour 5000 points
+en millisecondes.
+De plus, nous avons porté de la même manière les temps de construction des arbres en fonction du nombre maximum
+de polygones par nœud.
+
 % Enfin, nous avons calculé le temps moyen de recherche pour chaque jeu de données et chaque algorithme de split.
-(voir \ref{analyse})
+% (voir \ref{analyse})
 
 Les résultats de ces expérimentations nous permettent de comparer les performances des deux types d'arbres
 (quadratique et linéaire) en termes de temps de construction et d'exécution des recherches.
-
 
 \subsection {Belgique - Secteurs statistiques}\label{belgique}
 
