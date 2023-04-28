@@ -19,3 +19,7 @@ You need maven to compile and run this project
 
 #### To clean the directory:
     mvn clean
+
+#### To generate the JavaDoc:
+    mvn javadoc:javadoc
+target/site/apidocs/index.html
