@@ -23,3 +23,6 @@ You need maven to compile and run this project
 #### To generate the JavaDoc:
     mvn javadoc:javadoc
 open target/site/apidocs/index.html in a web browser
+
+
+We have put only the shapefile of USA in the data directory Otherwise the zip is too big.
