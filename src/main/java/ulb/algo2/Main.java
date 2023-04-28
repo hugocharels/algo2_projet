@@ -12,12 +12,24 @@ import org.locationtech.jts.geom.Point;
 
 import ulb.algo2.rtrees.*;
 import ulb.algo2.rtrees.AbstractRTree;
-
+import ulb.algo2.GraphGenerator;
 
 public class Main {
 
-
 	public static void main(String[] args) throws Throwable {
+	    String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
+	    // System.out.println("Generating graph");
+	    GraphGenerator linearGraphGenerator = new GraphGenerator();
+	    GraphGenerator quadraticGraphGenerator = new GraphGenerator();
+	    linearGraphGenerator.init(filename, true);
+	    quadraticGraphGenerator.init(filename, false);
+	    System.out.println("Generating graph");
+	    linearGraphGenerator.generateGraph();
+	    System.out.println("Linear graph done");
+	    quadraticGraphGenerator.generateGraph();
+	    System.out.println("Quadratic graph done");
+	}
+	public static void main2(String[] args) throws Throwable {
 
 		// Load the map
 		String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
@@ -30,8 +42,8 @@ public class Main {
 		// store.dispose();
 
 
-		//for ( int N : new int[]{ 10, 50, 100, 200, 500, 1000}) {
-		for ( int N : new int[]{ 500, 1000, 2000, 5000, 10000 }) {
+		for ( int N : new int[]{ 2, 10, 50, 100, 200, 500, 1000}) {
+		// for ( int N : new int[]{ 500, 1000, 2000, 5000, 10000 }) {
 		//for ( int N : new int[]{ 10000, 50000, 100000, 500000, 1000000 }) {
 
 			System.out.println("++++++++++++++++++++++++++++++++++++");

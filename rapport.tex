@@ -173,22 +173,22 @@ pour la construction ultérieure de l'arbre.
 \begin{minted}{java}
 
 protected AbstractNodePair pickSeeds(Node node) {
-    AbstractNodePair nodes = new AbstractNodePair(node.getChild(0), 
-						    node.getChild(1));
-    MBR biggest = nodes.n1.getMBR().getUnion(nodes.n2.getMBR());
+    AbstractNodePair nodes = new AbstractNodePair(node.getChild(0), node.getChild(1));
+    double bestExpansion = 0;
     for (int i = 1; i < node.getChildren().size(); i++) {
 	for (int j = i + 1; j < node.getChildren().size(); j++) {
-	    if (i==j) { continue; }
-	    MBR union = node.getChild(i).getMBR().getUnion(node.getChild(j).getMBR());
-	    if (union.getArea() > biggest.getArea()) {
+	    double expansion = 
+		    node.getChild(i).getMBR().getExpansion(node.getChild(j).getMBR());
+	    if (expansion > bestExpansion) {
 		nodes.n1 = node.getChild(i);
 		nodes.n2 = node.getChild(j);
-		biggest = union;
+		bestExpansion = expansion;
 	    }
 	}
     }
     return nodes;
 }
+
 \end{minted}
 % \end{lstlisting}
 
@@ -209,6 +209,19 @@ Ce processus est répété jusqu'à ce que tous les MBR soient attribués à un 
 
 \begin{minted}{java}
 
+protected void pickNext(Node n1, Node n2, List<AbstractNode> children) {
+    for (AbstractNode child : children) {
+	if (n1.getMBR().getExpansion(child.getMBR()) < 
+			n2.getMBR().getExpansion(child.getMBR())) {
+	    n1.addChild(child);
+	    n1.expandMBR(child.getMBR());
+	} 
+	else {
+	    n2.addChild(child);
+	    n2.expandMBR(child.getMBR());
+	}
+    }
+}
 \end{minted}
 
 
@@ -364,7 +377,7 @@ Nous avons utilisé les ensembles de données suivants :
 
 \begin{itemize}
 
-    \item Belgique - Secteur. Voir statistique \ref{belgique}
+    \item Belgique - Secteur. Voir \ref{belgique}
     \item France - Communes. Voir \ref{france}
     \item Monde - Pays. Voir \ref{mondePays}
     \item Monde - Villes. Voir \ref{mondeVilles}
@@ -375,6 +388,12 @@ et l'algorithme de partitionnement linéaire.
 
 Ensuite, nous avons effectué des recherches en utilisant un ensemble de 5000 points de recherche différents 
 dans chaque jeu de données afin d'obtenir les résultats correspondants.
+
+Nous recommençons l'expérience en faisant varier le nombre maximum d'enfants par nœud allant de 2 au nombre
+maximum de polygones par jeu de données.
+
+Enfin, nous avons calculé le temps moyen de recherche pour chaque jeu de données et chaque algorithme de split.
+(voir \ref{analyse})
 
 Les résultats de ces expérimentations nous permettent de comparer les performances des deux types d'arbres 
 (quadratique et linéaire) en termes de temps de construction et d'exécution des recherches.
