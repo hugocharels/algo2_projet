@@ -18,26 +18,48 @@ public class Main {
 
 
 	public static void main(String[] args) throws Throwable {
-
-		// Load the map
-		String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
-		File file = new File(filename);
-		if (!file.exists()) throw new RuntimeException("Shapefile does not exist.");
-		FileDataStore store = FileDataStoreFinder.getDataStore(file);
-		SimpleFeatureSource featureSource = store.getFeatureSource();
-
-		// Countries
-		SimpleFeatureCollection allFeatures = featureSource.getFeatures();
-
-		// Generate the research graph
-		ResearchGraphGenerator researchGraphGenerator = new ResearchGraphGenerator("belgium", allFeatures);
+		// Generate the research graph for the belgium map
+		ResearchGraphGenerator researchGraphGenerator = new ResearchGraphGenerator("belgium", getBelgiumFeatures());
 		researchGraphGenerator.generate(20);
 		researchGraphGenerator.saveGraph();
 
+		// Generate the research graph for the france map
+		researchGraphGenerator = new ResearchGraphGenerator("france", getFranceFeatures());
+		researchGraphGenerator.generate(20);
+		researchGraphGenerator.saveGraph();
 
+		// Generate the research graph for the world map
+		researchGraphGenerator = new ResearchGraphGenerator("world", getWorldFeatures());
+		researchGraphGenerator.generate(20);
+		researchGraphGenerator.saveGraph();
 
 	}
 
+
+
+	private static SimpleFeatureCollection getBelgiumFeatures() throws Throwable {
+		String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
+		return getFeatures(filename);
+	}
+
+	private static SimpleFeatureCollection getFranceFeatures() throws Throwable {
+		String filename="../algo2_projet/data/commaunes-20190101-shp/communes-20190101.shp";
+		return getFeatures(filename);
+	}
+
+	private static SimpleFeatureCollection getWorldFeatures() throws Throwable {
+		String filename="../algo2_projet/data/WB_countries_Admin0_10m/WB_countries_Admin0_10m.shp";
+		return getFeatures(filename);
+	}
+
+
+	private static SimpleFeatureCollection getFeatures(String fileName) throws Throwable {
+		File file = new File(fileName);
+		if (!file.exists()) throw new RuntimeException("Shapefile does not exist.");
+		FileDataStore store = FileDataStoreFinder.getDataStore(file);
+		SimpleFeatureSource featureSource = store.getFeatureSource();
+		return featureSource.getFeatures();
+	}
 
 
 
