@@ -2,8 +2,8 @@
 
 % \usepackage{listings}
 
-\usepackage{minted, xcolor, graphicx}
-\usepackage{geometry}
+\usepackage{minted, xcolor, graphicx, caption, geometry}
+% \usepackage{geometry}
 % \definecolor{bg}{HTML}{282828}
 
 
@@ -13,7 +13,7 @@
   top=2.5cm,
   bottom=3cm
 }
-
+\captionsetup{font=footnotesize}
 
 
 \begin {document}
@@ -404,13 +404,15 @@ Nous avons utilisé les ensembles de données suivants :
 Nous avons construit des arbres R-Tree à la fois en utilisant l'algorithme de partitionnement quadratique
 et l'algorithme de partitionnement linéaire.
 
-Ensuite, nous avons effectué des recherches en utilisant un ensemble de 5000 points de recherche différents
+Ensuite, nous avons effectué des recherches en utilisant un ensemble de 1000 points de recherche différents
 dans chaque jeu de données afin d'obtenir les résultats correspondants.
+Nous effectuons une moyenne des temps de recherche qui est calculée en faisant ces 1000 recherches 5 fois 
+pour chaque jeu de données et chaque algorithme de split.
 
 Nous recommençons l'expérience en faisant varier le nombre maximum d'enfants par nœud allant de 2 au nombre
-maximum de polygones par jeu de données.
+maximum de polygones par jeu de données par pas de nbPolygones/20.
 
-Enfin, nous avons calculé le temps moyen de recherche pour chaque jeu de données et chaque algorithme de split.
+% Enfin, nous avons calculé le temps moyen de recherche pour chaque jeu de données et chaque algorithme de split.
 (voir \ref{analyse})
 
 Les résultats de ces expérimentations nous permettent de comparer les performances des deux types d'arbres
@@ -418,17 +420,95 @@ Les résultats de ces expérimentations nous permettent de comparer les performa
 
 
 \subsection {Belgique - Secteurs statistiques}\label{belgique}
-ici on va ecrire les experiences sur les secteurs statistiques
 
+\begin{figure}[h]
+    \begin{minipage}[t]{0.46\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{graph_lineaire_Belgique.png}
+	\caption{Temps de recherche en fonction du nombre de polygones par noeud}
+	\label{fig:belgique_stat_find_lin}
+    \end{minipage}
+    \begin{minipage}[t]{0.46\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{graph_quadratique_Belgique.png}
+	\caption{Temps de recherche en fonction du nombre de polygones par noeud}
+	\label{fig:belgique_stat_find_quad}
+    \end{minipage}
+\end{figure}
+
+    % \centering{\includegraphics[scale=0.3]{graph_lineaire_Belgique.png}}
+	% \label{fig:belgique_stat_find_lin}
+% \end{figure}
+% \begin{figure}[t]
+%     \centering{\includegraphics[scale=0.5]{graph_quadratique_Belgique.png}}
+% 	\label{fig:belgique_stat_find_quad}
+% \end{figure}
+
+\newpage
 \subsection {France - Communes}\label{france}
-ici on va ecrire les experiences sur les communes
+
+\begin{figure}[h]
+    \begin{minipage}[t]{0.46\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{graph_lineaire_Belgique.png}
+	\caption{Temps de recherche en fonction du nombre de polygones par noeud}
+	\label{fig:belgique_stat_find_lin}
+    \end{minipage}
+    \begin{minipage}[t]{0.46\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{graph_quadratique_Belgique.png}
+	\caption{Temps de recherche en fonction du nombre de polygones par noeud}
+	\label{fig:belgique_stat_find_quad}
+    \end{minipage}
+\end{figure}
+% \begin{figure}[t]
+%     \centering{\includegraphics[scale=0.5]{logo.png}}
+% 	\label{fig:logo}
+% \end{figure}
 
 \subsection {Monde - Pays}\label{mondePays}
-ici on va ecrire les experiences sur les pays
 
+\begin{figure}[h]
+    \begin{minipage}[t]{0.46\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{graph_lineaire_Belgique.png}
+	\caption{Temps de recherche en fonction du nombre de polygones par noeud}
+	\label{fig:belgique_stat_find_lin}
+    \end{minipage}
+    \begin{minipage}[t]{0.46\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{graph_quadratique_Belgique.png}
+	\caption{Temps de recherche en fonction du nombre de polygones par noeud}
+	\label{fig:belgique_stat_find_quad}
+    \end{minipage}
+\end{figure}
+
+% \begin{figure}[t]
+%     \centering{\includegraphics[scale=0.5]{logo.png}}
+% 	\label{fig:logo}
+% \end{figure}
+\newpage
 \subsection {Monde - Villes}\label{mondeVilles}
-ici on va ecrire les experiences sur les villes
+\begin{figure}[h]
+    \begin{minipage}[t]{0.46\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{graph_lineaire_Belgique.png}
+	\caption{Temps de recherche en fonction du nombre de polygones par noeud}
+	\label{fig:belgique_stat_find_lin}
+    \end{minipage}
+    \begin{minipage}[t]{0.46\textwidth}
+	\centering
+	% \includegraphics[width=\textwidth]{graph_quadratique_Belgique.png}
+	\includegraphics[width=\textwidth]{graph_quadratique_Belgique.png}
+	\caption{Temps de recherche en fonction du nombre de polygones par noeud}
+	\label{fig:belgique_stat_find_quad}
+    \end{minipage}
+\end{figure}
 
+% \begin{figure}[t]
+%     \centering{\includegraphics[scale=0.5]{logo.png}}
+% 	\label{fig:logo}
+% \end{figure}
 \subsection {Analyse}\label{analyse}
 ici on va ecrire l'analyse
 
