@@ -17,9 +17,8 @@ public class Main {
 
 
 	public static void main(String[] args) throws Throwable {
-		
 		// To generate the graphics that are in the rapport
-		//graphGen();
+		graphGen();
 	}
 
 
