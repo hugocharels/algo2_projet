@@ -18,18 +18,23 @@ public class Main {
 
 
 	public static void main(String[] args) throws Throwable {
+		ResearchGraphGenerator researchGraphGenerator;
+
 		// Generate the research graph for the belgium map
-		ResearchGraphGenerator researchGraphGenerator = new ResearchGraphGenerator("belgium", getBelgiumFeatures());
+		System.out.println("Generating the research graph for the belgium map...");
+		researchGraphGenerator = new ResearchGraphGenerator("belgium", getBelgiumFeatures());
 		researchGraphGenerator.generate(20);
 		researchGraphGenerator.saveGraph();
 
 		// Generate the research graph for the france map
-		researchGraphGenerator = new ResearchGraphGenerator("france", getFranceFeatures());
+		System.out.println("Generating the research graph for the france map...");
+		researchGraphGenerator = new ResearchGraphGenerator("france", getFranceFeatures(), 1000);
 		researchGraphGenerator.generate(20);
 		researchGraphGenerator.saveGraph();
 
 		// Generate the research graph for the world map
-		researchGraphGenerator = new ResearchGraphGenerator("world", getWorldFeatures());
+		System.out.println("Generating the research graph for the world map...");
+		researchGraphGenerator = new ResearchGraphGenerator("world", getWorldFeatures(), 1000);
 		researchGraphGenerator.generate(20);
 		researchGraphGenerator.saveGraph();
 
@@ -43,7 +48,7 @@ public class Main {
 	}
 
 	private static SimpleFeatureCollection getFranceFeatures() throws Throwable {
-		String filename="../algo2_projet/data/commaunes-20190101-shp/communes-20190101.shp";
+		String filename="../algo2_projet/data/communes-20220101-shp/communes-20220101.shp";
 		return getFeatures(filename);
 	}
 

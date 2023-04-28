@@ -31,7 +31,8 @@ public class RTreeBuilder {
 					if (polygonAdded >= maxPolygon) break;
 					Polygon polygon = (Polygon) multiPolygon.getGeometryN(i);
 					polygonAdded++;
-					tree.addLeaf(root, feature.getProperty("T_SEC_FR").getValue().toString(), polygon);
+					//tree.addLeaf(root, feature.getProperty("T_SEC_FR").getValue().toString(), polygon);
+					tree.addLeaf(root, "", polygon);
 				}
 			}
 		} return polygonAdded;

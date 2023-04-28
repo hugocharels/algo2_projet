@@ -24,10 +24,16 @@ public class ResearchGraphGenerator {
 	GraphGenerator graphGenerator;
 
 	// Constructor
+	public ResearchGraphGenerator() {}
+
 	public ResearchGraphGenerator(String mapName, SimpleFeatureCollection features) {
+		this(mapName, features, 5000);
+	}
+	public ResearchGraphGenerator(String mapName, SimpleFeatureCollection features, int nbPoints) {
 		this.MapName = mapName;
 		this.features = features;
 		this.bounds = features.getBounds();
+		this.nbPoints = nbPoints;
 		this.setMaxN();
 		this.setPoints();
 		this.graphGenerator = new GraphGenerator("Research Duration Time", prefix + mapName + ".png");
