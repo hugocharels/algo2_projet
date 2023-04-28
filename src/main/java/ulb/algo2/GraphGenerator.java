@@ -32,11 +32,55 @@ public class GraphGenerator{
 	String nameOfFile;
 	JFreeChart lineChart;
 
+	// Constructor
 	public GraphGenerator(String title){
 	this.title = title;
 	}
 
+	public void init(String filename, Boolean quadratic) throws Throwable {
+		this.filename = filename;
+		this.quadratic = quadratic;
+		this.decodeShapefile();
+		this.generateTree(2);
+		this.generateNameOfFile();
+		this.nMax = RTreeBuilder.buildTree(this.rtree, this.allFeatures);
+	}
 
+	public static void setPoints() {
+		final double min = 20000;
+		final double max = 300000;
+		Random random = new Random();
+		for (int i = 0; i < nbPoints; i++) {
+			points[i] = new GeometryBuilder().point(min + random.nextDouble() * (max - min), min + random.nextDouble() * (max - min));
+		}
+	}
+
+	public void generateGraph(){
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		final int differentN = 50;
+		for (int i = 1; i<differentN + 1; i++) {
+			// for ( int i : new int[]{ 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000}) {
+			//for ( int i : new int[]{ 2, 10, 50, 100, 200, 500, 1000}) {
+			final int N = i * this.nMax / differentN;
+			generateTree(N);
+			this.nMax = RTreeBuilder.buildTree(this.rtree, this.allFeatures);
+			long startTime = System.currentTimeMillis();
+			for (int x = 0; x < 5; x++) {
+				for (int j = 0; j < nbPoints; j++) {
+					this.rtree.find(points[j]);
+				}
+			}
+			long endTime = System.currentTimeMillis();
+			long duration = (endTime - startTime) / 5;
+			System.out.println("Average time for " + N + " dimensions: " + duration);
+			dataset.addValue(duration, "Average time", Integer.toString(N));
+		}
+		// this.lineChart = ChartFactory.createLineChart("Average time to find a point in a RTree", "Dimensions", "Time (ns)", dataset);
+		this.lineChart = ChartFactory.createLineChart(title, "Dimensions", "Time (ms)", dataset);
+		this.saveGraph();
+	}
+
+	// Privates
 	private void decodeShapefile() throws Throwable{
 		File file = new File(filename);
 		if (!file.exists()) throw new RuntimeException("Shapefile does not exist.");
@@ -59,61 +103,13 @@ public class GraphGenerator{
 		// this.nameOfFile = this.nameOfFile + this.filename;
 	}
 
-	public static void setPoints() {
-		final double min = 20000;
-		final double max = 300000;
-		Random random = new Random();
-		for (int i = 0; i < nbPoints; i++) {
-			points[i] = new GeometryBuilder().point(min + random.nextDouble() * (max - min), min + random.nextDouble() * (max - min));
-		}
-	}
-
-	public void init(String filename, Boolean quadratic) throws Throwable{
-		this.filename = filename;
-		decodeShapefile();
-		this.quadratic = quadratic;
-		generateTree(2);
-		generateNameOfFile();
-		this.nMax = RTreeBuilder.buildTree(this.rtree, this.allFeatures);
-	}
-
 	private void saveGraph() {
 		File lineChartFile = new File(this.nameOfFile);
-		// File lineChartFile = new File("graph.png");
 		try {
 			ChartUtils.saveChartAsJPEG(lineChartFile, lineChart, 800, 600);
 		} catch (IOException e) {
 			System.err.println("Problem occurred creating chart.");
 		}
-	}
-
-	
-
-	public void generateGraph(){
-		// TODO: need return int for RTreeBuilder.buildTree
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-		final int differentN = 50;
-		for (int i = 1; i<differentN + 1; i++) {
-		// for ( int i : new int[]{ 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000}) {
-		//for ( int i : new int[]{ 2, 10, 50, 100, 200, 500, 1000}) {
-			final int N = i * this.nMax / differentN;
-			generateTree(N);
-			this.nMax = RTreeBuilder.buildTree(this.rtree, this.allFeatures);
-			long startTime = System.currentTimeMillis();
-			for (int x = 0; x < 5; x++) {
-				for (int j = 0; j < nbPoints; j++) {
-					this.rtree.find(points[j]);
-				}
-			}
-			long endTime = System.currentTimeMillis();
-			long duration = (endTime - startTime) / 5;
-			System.out.println("Average time for " + N + " dimensions: " + duration);
-			dataset.addValue(duration, "Average time", Integer.toString(N));
-		}
-		// this.lineChart = ChartFactory.createLineChart("Average time to find a point in a RTree", "Dimensions", "Time (ns)", dataset);
-		this.lineChart = ChartFactory.createLineChart(title, "Dimensions", "Time (ms)", dataset);
-		saveGraph();
 	}
 
 }
