@@ -25,9 +25,9 @@ public class GraphGenerator{
 	Boolean quadratic;
 	AbstractRTree rtree;
 	SimpleFeatureCollection allFeatures;
-	int nbPoints = 5000;
 	int nMax = 1000;
-	Point[] points = new Point[nbPoints];
+	static int nbPoints = 1000;
+	static Point[] points = new Point[nbPoints];
 	String filename;
 	String nameOfFile;
 	JFreeChart lineChart;
@@ -59,18 +59,22 @@ public class GraphGenerator{
 		// this.nameOfFile = this.nameOfFile + this.filename;
 	}
 
+	public static void setPoints() {
+		final double min = 20000;
+		final double max = 300000;
+		Random random = new Random();
+		for (int i = 0; i < nbPoints; i++) {
+			points[i] = new GeometryBuilder().point(min + random.nextDouble() * (max - min), min + random.nextDouble() * (max - min));
+		}
+	}
+
 	public void init(String filename, Boolean quadratic) throws Throwable{
 		this.filename = filename;
 		decodeShapefile();
 		this.quadratic = quadratic;
 		generateTree(2);
 		generateNameOfFile();
-		Random random = new Random();
-		final double min = 20000;
-		final double max = 300000;
-		for (int i = 0; i < this.nbPoints; i++) {
-			points[i] = new GeometryBuilder().point(min + random.nextDouble() * (max - min), min + random.nextDouble() * (max - min));
-		}
+		this.nMax = RTreeBuilder.buildTree(this.rtree, this.allFeatures);
 	}
 
 	private void saveGraph() {
@@ -88,20 +92,24 @@ public class GraphGenerator{
 	public void generateGraph(){
 		// TODO: need return int for RTreeBuilder.buildTree
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		// this.nMax = 10;
-		for (int i = 2; i < this.nMax; i+=10) {
+
+		final int differentN = 50;
+		for (int i = 1; i<differentN + 1; i++) {
 		// for ( int i : new int[]{ 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000}) {
 		//for ( int i : new int[]{ 2, 10, 50, 100, 200, 500, 1000}) {
-			generateTree(i);
+			final int N = i * this.nMax / differentN;
+			generateTree(N);
 			this.nMax = RTreeBuilder.buildTree(this.rtree, this.allFeatures);
 			long startTime = System.currentTimeMillis();
-			for (int j = 0; j < this.nbPoints; j++) {
-				this.rtree.find(this.points[j]);
+			for (int x = 0; x < 5; x++) {
+				for (int j = 0; j < nbPoints; j++) {
+					this.rtree.find(points[j]);
+				}
 			}
 			long endTime = System.currentTimeMillis();
-			long duration = (endTime - startTime);
-			System.out.println("Average time for " + i + " dimensions: " + duration);
-			dataset.addValue(duration, "Average time", Integer.toString(i));
+			long duration = (endTime - startTime) / 5;
+			System.out.println("Average time for " + N + " dimensions: " + duration);
+			dataset.addValue(duration, "Average time", Integer.toString(N));
 		}
 		// this.lineChart = ChartFactory.createLineChart("Average time to find a point in a RTree", "Dimensions", "Time (ns)", dataset);
 		this.lineChart = ChartFactory.createLineChart(title, "Dimensions", "Time (ms)", dataset);

@@ -21,8 +21,9 @@ public class Main {
 	    // System.out.println("Generating graph");
 	    GraphGenerator linearGraphGenerator = new GraphGenerator("Belgique - Secteurs statistique");
 	    GraphGenerator quadraticGraphGenerator = new GraphGenerator("Belgique - Secteurs statistique");
-	    linearGraphGenerator.init(filename, true);
-	    quadraticGraphGenerator.init(filename, false);
+	    GraphGenerator.setPoints();
+		linearGraphGenerator.init(filename, false);
+	    quadraticGraphGenerator.init(filename, true);
 	    System.out.println("Generating graph");
 	    linearGraphGenerator.generateGraph();
 	    System.out.println("Linear graph done");

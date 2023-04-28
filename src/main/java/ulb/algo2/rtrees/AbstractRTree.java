@@ -89,7 +89,7 @@ public abstract class AbstractRTree {
 		double bestExpansion = 0;
 		for (int i = 1; i < node.getChildren().size(); i++) {
 			for (int j = i + 1; j < node.getChildren().size(); j++) {
-				double expansion = node.getChild(i).getMBR().getExpansion(node.getChild(j).getMBR());
+				double expansion = node.getChild(i).getMBR().getExpansion(node.getChild(j).getMBR()) - node.getChild(j).getMBR().getArea();
 				if (expansion > bestExpansion) {
 					nodes.n1 = node.getChild(i);
 					nodes.n2 = node.getChild(j);
