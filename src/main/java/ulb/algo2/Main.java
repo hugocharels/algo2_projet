@@ -16,20 +16,31 @@ import ulb.algo2.GraphGenerator;
 
 public class Main {
 
+
 	public static void main(String[] args) throws Throwable {
-	    String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
-	    // System.out.println("Generating graph");
-	    GraphGenerator linearGraphGenerator = new GraphGenerator("Belgique - Secteurs statistique");
-	    GraphGenerator quadraticGraphGenerator = new GraphGenerator("Belgique - Secteurs statistique");
-	    GraphGenerator.setPoints();
-		linearGraphGenerator.init(filename, false);
-	    quadraticGraphGenerator.init(filename, true);
-	    System.out.println("Generating graph");
-	    linearGraphGenerator.generateGraph();
-	    System.out.println("Linear graph done");
-	    quadraticGraphGenerator.generateGraph();
-	    System.out.println("Quadratic graph done");
+
+		// Load the map
+		String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
+		File file = new File(filename);
+		if (!file.exists()) throw new RuntimeException("Shapefile does not exist.");
+		FileDataStore store = FileDataStoreFinder.getDataStore(file);
+		SimpleFeatureSource featureSource = store.getFeatureSource();
+
+		// Countries
+		SimpleFeatureCollection allFeatures = featureSource.getFeatures();
+
+		// Generate the research graph
+		ResearchGraphGenerator researchGraphGenerator = new ResearchGraphGenerator("belgium", allFeatures);
+		researchGraphGenerator.generate(20);
+		researchGraphGenerator.saveGraph();
+
+
+
 	}
+
+
+
+
 	public static void main2(String[] args) throws Throwable {
 
 		// Load the map
