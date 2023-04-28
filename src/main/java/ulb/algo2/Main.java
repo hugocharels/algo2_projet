@@ -29,25 +29,26 @@ public class Main {
 	public static void main(String[] args) throws Throwable {
 
 		StatsGenerator researchGraphGenerator;
-/*
+///*
 		// Generate the research graph for the belgium map
 		System.out.println("Generating the research graph for the belgium map...");
-		researchGraphGenerator = new StatsGenerator("belgium", getBelgiumFeatures());
+		researchGraphGenerator = new StatsGenerator("belgium", getBelgiumFeatures(), 1000);
 		researchGraphGenerator.generate(20);
 		researchGraphGenerator.saveGraph();
-*/
+/*
 		// Generate the research graph for the france map
 		System.out.println("Generating the research graph for the france map...");
 		researchGraphGenerator = new StatsGenerator("france", getFranceFeatures(), 1000);
 		researchGraphGenerator.generate(20);
 		researchGraphGenerator.saveGraph();
-/*
+*//*
 		// Generate the research graph for the world map
 		System.out.println("Generating the research graph for the world map...");
 		researchGraphGenerator = new StatsGenerator("world", getWorldFeatures(), 1000);
 		researchGraphGenerator.generate(20);
 		researchGraphGenerator.saveGraph();
 */
+		System.exit(0);
 	}
 
 
