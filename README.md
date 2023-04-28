@@ -1,27 +1,19 @@
-# algo2_projet
+ULB Algorithmique 2 (info-f203)
+Projet R-trees
+Hugo Charels & Mickael Kovel
 
-On doit avoir un readme bruh
+Because of hight ammount of use of memory, you have to enter this command to allow maven to use more memory :
+    export MAVEN_OPTS="-Xmx2048m"
+(only beacause of the shapefile of France)
 
-yoyo
+You need maven to compile and run this project
 
-run directly with: mvn clean compiler:compile exec:java "-Dexec.mainClass=ulb.algo2.SinglePoint" 
+To compile:
+    mvn clean compile
 
-create the jar file with dep: mvn clean compile assembly:single
+To run the code:
+    mvn clean compile exec:java
 
-after run .jar in target with java -jar
- _____
-< UwU >
- -----
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||--WWW |
-                ||     ||
-
-yo yoy
-
-long startTime = System.nanoTime();
-methodToTime();
-long endTime = System.nanoTime();
-petit test de push encore :)
+To clean the directory:
+    mvn clean
 
