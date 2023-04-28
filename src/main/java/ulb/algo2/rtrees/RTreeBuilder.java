@@ -15,7 +15,7 @@ public class RTreeBuilder {
 
 
 	public static int buildTree(AbstractRTree tree, SimpleFeatureCollection features) {
-		buildTree(tree, features, Double.POSITIVE_INFINITY);
+		return buildTree(tree, features, Double.POSITIVE_INFINITY);
 	}
 
 	public static int buildTree(AbstractRTree tree, SimpleFeatureCollection features, double maxPolygon) {

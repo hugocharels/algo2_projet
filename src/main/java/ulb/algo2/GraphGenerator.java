@@ -26,7 +26,7 @@ public class GraphGenerator{
 	AbstractRTree rtree;
 	SimpleFeatureCollection allFeatures;
 	int nbPoints = 5000;
-	int nMax;
+	int nMax = 1000;
 	Point[] points = new Point[nbPoints];
 	String filename;
 	String nameOfFile;
@@ -88,12 +88,12 @@ public class GraphGenerator{
 	public void generateGraph(){
 		// TODO: need return int for RTreeBuilder.buildTree
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		this.nMax = 10;
-		// for (int i = 2; i < this.nMax; i++) {
-		for ( int i : new int[]{ 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000}) {
+		// this.nMax = 10;
+		for (int i = 2; i < this.nMax; i+=10) {
+		// for ( int i : new int[]{ 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000}) {
 		//for ( int i : new int[]{ 2, 10, 50, 100, 200, 500, 1000}) {
 			generateTree(i);
-			RTreeBuilder.buildTree(this.rtree, this.allFeatures);
+			this.nMax = RTreeBuilder.buildTree(this.rtree, this.allFeatures);
 			long startTime = System.currentTimeMillis();
 			for (int j = 0; j < this.nbPoints; j++) {
 				this.rtree.find(this.points[j]);
