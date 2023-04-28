@@ -1,6 +1,7 @@
 package ulb.algo2;
 
 import java.io.File;
+import java.util.Queue;
 import java.util.Random;
 
 import org.geotools.data.FileDataStore;
@@ -16,6 +17,14 @@ import ulb.algo2.GraphGenerator;
 
 public class Main {
 
+
+	public static void main2(String[] args) throws Throwable {
+		QuadraticRTree rTree1 = new QuadraticRTree(1856);
+		QuadraticRTree rTree2 = new QuadraticRTree(1856);
+		RTreeBuilder.buildTree(rTree1, getFranceFeatures());
+		RTreeBuilder.buildTree(rTree2, getFranceFeatures());
+
+	}
 
 	public static void main(String[] args) throws Throwable {
 
@@ -69,7 +78,7 @@ public class Main {
 
 
 
-	public static void main2(String[] args) throws Throwable {
+	public static void main3(String[] args) throws Throwable {
 
 		// Load the map
 		String filename="../algo2_projet/data/sh_statbel_statistical_sectors_31370_20220101.shp/sh_statbel_statistical_sectors_31370_20220101.shp";
