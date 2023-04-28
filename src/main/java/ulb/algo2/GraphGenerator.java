@@ -76,7 +76,7 @@ public class GraphGenerator{
 	private void saveGraph() {
 		File lineChartFile = new File(this.nameOfFile);
 		// File lineChartFile = new File("graph.png");
-		try{
+		try {
 			ChartUtils.saveChartAsJPEG(lineChartFile, lineChart, 800, 600);
 		} catch (IOException e) {
 			System.err.println("Problem occurred creating chart.");
@@ -90,12 +90,13 @@ public class GraphGenerator{
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		this.nMax = 10;
 		// for (int i = 2; i < this.nMax; i++) {
-		for ( int i : new int[]{ 2, 10, 50, 100, 200, 500, 1000}) {
+		for ( int i : new int[]{ 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000, 500000, 1000000}) {
+		//for ( int i : new int[]{ 2, 10, 50, 100, 200, 500, 1000}) {
 			generateTree(i);
 			RTreeBuilder.buildTree(this.rtree, this.allFeatures);
 			long startTime = System.currentTimeMillis();
 			for (int j = 0; j < this.nbPoints; j++) {
-			this.rtree.find(this.points[i]);
+				this.rtree.find(this.points[j]);
 			}
 			long endTime = System.currentTimeMillis();
 			long duration = (endTime - startTime);
@@ -103,7 +104,7 @@ public class GraphGenerator{
 			dataset.addValue(duration, "Average time", Integer.toString(i));
 		}
 		// this.lineChart = ChartFactory.createLineChart("Average time to find a point in a RTree", "Dimensions", "Time (ns)", dataset);
-		this.lineChart = ChartFactory.createLineChart(title, "Dimensions", "Time (ns)", dataset);
+		this.lineChart = ChartFactory.createLineChart(title, "Dimensions", "Time (ms)", dataset);
 		saveGraph();
 	}
 
