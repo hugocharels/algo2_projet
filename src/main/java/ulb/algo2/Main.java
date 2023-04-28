@@ -26,6 +26,7 @@ public class Main {
 
 	public static void graphGen() throws Throwable {
 
+		/*
 		{
 			// Generate the research graph for the belgium map
 			System.out.println("Generating the research graph for the belgium map...");
@@ -46,7 +47,15 @@ public class Main {
 			StatsGenerator researchGraphGenerator = new StatsGenerator("world", getWorldFeatures(), 1000);
 			researchGraphGenerator.generate(10);
 			researchGraphGenerator.saveGraph();
+		}*/
+		{
+			// Generate the research graph for the USA map
+			System.out.println("Generating the research graph for the USA map...");
+			StatsGenerator researchGraphGenerator = new StatsGenerator("USA", getUSAFeatures(), 1000);
+			researchGraphGenerator.generate(10);
+			researchGraphGenerator.saveGraph();
 		}
+
 		System.exit(0);
 	}
 
@@ -67,6 +76,10 @@ public class Main {
 		return getFeatures(filename);
 	}
 
+	public static SimpleFeatureCollection getUSAFeatures() throws Throwable {
+		String filename="../algo2_projet/data/StatPlanet_USA_County/map/map.shp";
+		return getFeatures(filename);
+	}
 
 	private static SimpleFeatureCollection getFeatures(String fileName) throws Throwable {
 		File file = new File(fileName);
