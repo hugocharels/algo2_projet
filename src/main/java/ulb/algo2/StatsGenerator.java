@@ -62,7 +62,6 @@ public class StatsGenerator {
 			}
 			{
 				// Quadratic
-				System.out.println(N);
 				AbstractRTree qRTree = this.buildQuadraticRTree(N);
 				Execution.start("Quadratic R-Tree", "searching");
 				for (int j = 0; j < nbPoints; j++) { qRTree.find(points[j]); }

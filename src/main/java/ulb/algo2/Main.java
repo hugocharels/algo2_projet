@@ -12,42 +12,41 @@ import org.geotools.geometry.jts.GeometryBuilder;
 import org.locationtech.jts.geom.Point;
 
 import ulb.algo2.rtrees.*;
-import ulb.algo2.rtrees.AbstractRTree;
-import ulb.algo2.GraphGenerator;
 
 public class Main {
 
 
-	public static void main2(String[] args) throws Throwable {
-		QuadraticRTree rTree1 = new QuadraticRTree(1856);
-		QuadraticRTree rTree2 = new QuadraticRTree(1856);
-		RTreeBuilder.buildTree(rTree1, getFranceFeatures());
-		RTreeBuilder.buildTree(rTree2, getFranceFeatures());
-
-	}
-
 	public static void main(String[] args) throws Throwable {
 
-		StatsGenerator researchGraphGenerator;
-///*
-		// Generate the research graph for the belgium map
-		System.out.println("Generating the research graph for the belgium map...");
-		researchGraphGenerator = new StatsGenerator("belgium", getBelgiumFeatures(), 1000);
-		researchGraphGenerator.generate(20);
-		researchGraphGenerator.saveGraph();
-/*
-		// Generate the research graph for the france map
-		System.out.println("Generating the research graph for the france map...");
-		researchGraphGenerator = new StatsGenerator("france", getFranceFeatures(), 1000);
-		researchGraphGenerator.generate(20);
-		researchGraphGenerator.saveGraph();
-*//*
-		// Generate the research graph for the world map
-		System.out.println("Generating the research graph for the world map...");
-		researchGraphGenerator = new StatsGenerator("world", getWorldFeatures(), 1000);
-		researchGraphGenerator.generate(20);
-		researchGraphGenerator.saveGraph();
-*/
+
+
+		graphGen();
+	}
+
+
+	public static void graphGen() throws Throwable {
+
+		{
+			// Generate the research graph for the belgium map
+			System.out.println("Generating the research graph for the belgium map...");
+			StatsGenerator researchGraphGenerator = new StatsGenerator("belgium", getBelgiumFeatures(), 1000);
+			researchGraphGenerator.generate(10);
+			researchGraphGenerator.saveGraph();
+		}
+		{
+			// Generate the research graph for the france map
+			System.out.println("Generating the research graph for the france map...");
+			StatsGenerator researchGraphGenerator = new StatsGenerator("france", getFranceFeatures(), 1000);
+			researchGraphGenerator.generate(10);
+			researchGraphGenerator.saveGraph();
+		}
+		{
+			// Generate the research graph for the world map
+			System.out.println("Generating the research graph for the world map...");
+			StatsGenerator researchGraphGenerator = new StatsGenerator("world", getWorldFeatures(), 1000);
+			researchGraphGenerator.generate(10);
+			researchGraphGenerator.saveGraph();
+		}
 		System.exit(0);
 	}
 
@@ -76,7 +75,6 @@ public class Main {
 		SimpleFeatureSource featureSource = store.getFeatureSource();
 		return featureSource.getFeatures();
 	}
-
 
 
 	public static void main3(String[] args) throws Throwable {
