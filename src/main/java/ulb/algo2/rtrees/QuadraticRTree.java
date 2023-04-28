@@ -11,6 +11,7 @@ public class QuadraticRTree extends AbstractRTree {
 	// Constructor
 	public QuadraticRTree(int N) { super(N); }
 
+
 	@Override
 	protected void pickNext(Node n1, Node n2, List<AbstractNode> children) {
 		while(!children.isEmpty()) {

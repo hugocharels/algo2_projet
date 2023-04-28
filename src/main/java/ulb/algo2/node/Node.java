@@ -23,21 +23,11 @@ public class Node extends AbstractNode {
 	public void removeChild(AbstractNode child) { children.remove(child); }
 	public void removeChildren() { children.clear(); }
 
-	public void swapChildren(Node other) {
-		List<AbstractNode> temp = children;
-		children = other.children;
-		other.children = temp;
-	}
-
 	// Verifiers
 	public boolean isChild(AbstractNode child) { return children.contains(child); }
-
 	public boolean hasLeaf() { return children.size() > 0 && children.get(0).isLeaf(); }
-
 	public boolean hasNoChildren() { return children.size() == 0; }
-
 	public boolean maxChildrenReach(int N) { return children.size() >= N; }
-
 	@Override
 	public boolean isLeaf() { return false; }
 

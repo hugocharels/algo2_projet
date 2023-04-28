@@ -1,5 +1,7 @@
 package ulb.algo2;
 
+
+// To show and get execution time (put a function between start and end)
 public class Execution {
 
 	private static double startTime;

@@ -9,11 +9,11 @@ import java.io.File;
 import java.io.IOException;
 
 
+// To generate a png graph from data added
 public class GraphGenerator{
 	String title;
 	String nameOfFile;
 	final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
 	String colsName;
 	String rowsName;
 

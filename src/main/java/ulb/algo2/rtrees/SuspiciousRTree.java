@@ -14,6 +14,7 @@ public class SuspiciousRTree extends AbstractRTree {
 
 	@Override
 	protected AbstractNodePair pickSeeds(Node node) {
+		// take the 4 MBR at each corner and call the quadratic pickseeds on them
 		List<AbstractNode> children = new java.util.ArrayList<>(node.getChildren());
 		Node newNode = new Node(null, null);
 		newNode.addChild(children.stream().min(Comparator.comparingDouble(n -> n.getMBR().getXMin())).orElse(null));

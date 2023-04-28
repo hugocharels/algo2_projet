@@ -17,16 +17,13 @@ public class Main {
 
 
 	public static void main(String[] args) throws Throwable {
-
-
-
-		graphGen();
+		
+		// To generate the graphics that are in the rapport
+		//graphGen();
 	}
 
 
 	public static void graphGen() throws Throwable {
-
-		/*
 		{
 			// Generate the research graph for the belgium map
 			System.out.println("Generating the research graph for the belgium map...");
@@ -47,7 +44,7 @@ public class Main {
 			StatsGenerator researchGraphGenerator = new StatsGenerator("world", getWorldFeatures(), 1000);
 			researchGraphGenerator.generate(10);
 			researchGraphGenerator.saveGraph();
-		}*/
+		}
 		{
 			// Generate the research graph for the USA map
 			System.out.println("Generating the research graph for the USA map...");

@@ -84,6 +84,7 @@ public abstract class AbstractRTree {
 		return newNode;
 	}
 
+	// the quadratic pickSeeds
 	protected AbstractNodePair pickSeeds(Node node) {
 		AbstractNodePair nodes = new AbstractNodePair(node.getChild(0), node.getChild(1));
 		double bestExpansion = 0;
@@ -100,6 +101,7 @@ public abstract class AbstractRTree {
 		return nodes;
 	}
 
+	// the linear pickNext
 	protected void pickNext(Node n1, Node n2, List<AbstractNode> children) {
 		for (AbstractNode child : children) {
 			if (n1.getMBR().getExpansion(child.getMBR()) < n2.getMBR().getExpansion(child.getMBR())) {
@@ -114,7 +116,6 @@ public abstract class AbstractRTree {
 
 	// Setter
 	public void setRoot(Node root) { this.root = root; }
-
 
 	// Search
 	public Leaf find(double x, double y) {
@@ -136,29 +137,5 @@ public abstract class AbstractRTree {
 		}
 		return null;
 	}
-
-
-	// Display
-	public void print() {
-		List<Node> nodeList = new java.util.ArrayList<>();
-		Queue<AbstractNode> queue = new LinkedList<AbstractNode>();
-		queue.add(root);
-		while (!queue.isEmpty()) {
-			AbstractNode temp = queue.poll();
-			if (temp.isLeaf()) { continue; }
-			nodeList.add((Node)temp);
-			queue.addAll(((Node) temp).getChildren());
-		}
-		for (Node n : nodeList) {
-			System.out.println(n.toString());
-			if (!n.hasNoChildren() && n.getChild(0).isLeaf()) {
-				for (AbstractNode leaf : n.getChildren()) {
-					System.out.println("\t" + leaf.toString());
-				}
-			}
-		}
-
-	}
-
 
 }

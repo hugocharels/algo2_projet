@@ -9,6 +9,8 @@ import org.locationtech.jts.geom.Point;
 
 import ulb.algo2.rtrees.*;
 
+
+
 public class StatsGenerator {
 
 	final String buildingPrefix = "building_graph_";
@@ -103,11 +105,13 @@ public class StatsGenerator {
 	}
 
 	private void setMaxN() {
+		// the max N is equal to the number of polygons/leaf added into the tree
 		AbstractRTree rtree = new LinearRTree(10000);
 		this.maxN = RTreeBuilder.buildTree(rtree, features);
 	}
 
 	private void setPoints() {
+		// random points in the bounds of the map
 		Random r = new Random();
 		for (int i = 0; i < nbPoints; i++) {
 			points[i] = new GeometryBuilder().point(r.nextInt((int) bounds.getMinX(), (int) bounds.getMaxX()),

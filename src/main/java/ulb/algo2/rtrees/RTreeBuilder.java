@@ -18,6 +18,7 @@ public class RTreeBuilder {
 		return buildTree(tree, features, Double.POSITIVE_INFINITY);
 	}
 
+	// Open the features and call iteratively an addLeaf
 	public static int buildTree(AbstractRTree tree, SimpleFeatureCollection features, double maxPolygon) {
 		ReferencedEnvelope bounds = features.getBounds();
 		Node root = new Node(null, new MBR(bounds.getMinX(), bounds.getMaxX(), bounds.getMinY(), bounds.getMaxY()));
@@ -31,6 +32,7 @@ public class RTreeBuilder {
 					if (polygonAdded >= maxPolygon) break;
 					Polygon polygon = (Polygon) multiPolygon.getGeometryN(i);
 					polygonAdded++;
+					// get the name of the street only for belgium map
 					//tree.addLeaf(root, feature.getProperty("T_SEC_FR").getValue().toString(), polygon);
 					tree.addLeaf(root, "", polygon);
 				}
