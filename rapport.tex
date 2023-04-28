@@ -413,7 +413,7 @@ Nous avons utilisé les ensembles de données suivants :
     \item Belgique - Secteur. Voir \ref{belgique}
     \item France - Communes. Voir \ref{france}
     \item Monde - Pays. Voir \ref{mondePays}
-    \item Monde - Villes. Voir \ref{mondeVilles}
+    \item USA - countyMap. Voir \ref{usa}
 \end{itemize}
 
 Nous avons construit des arbres R-Tree à la fois en utilisant l'algorithme de partitionnement quadratique
@@ -508,18 +508,19 @@ Les résultats de ces expérimentations nous permettent de comparer les performa
 % 	\label{fig:logo}
 % \end{figure}
 \newpage
-\subsection {Monde - Villes}\label{mondeVilles}
+% \subsection {Monde - Villes}\label{mondeVilles}
+\subsection {USA - countyMap}\label{usa}
 \begin{figure}[h]
     \begin{minipage}[t]{0.46\textwidth}
 	\centering
-	\includegraphics[width=\textwidth]{research_graph_belgium.png}
+	\includegraphics[width=\textwidth]{building_graph_USA.png}
 	\caption{Temps de construction en fonction du nombre de polygones par noeud}
 	\label{fig:belgique_stat_find_lin}
     \end{minipage}
     \begin{minipage}[t]{0.46\textwidth}
 	\centering
 	% \includegraphics[width=\textwidth]{graph_quadratique_Belgique.png}
-	\includegraphics[width=\textwidth]{research_graph_belgium.png}
+	\includegraphics[width=\textwidth]{research_graph_USA.png}
 	\caption{Temps de recherche en fonction du nombre de polygones par noeud}
 	\label{fig:belgique_stat_find_quad}
     \end{minipage}
